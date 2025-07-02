@@ -116,9 +116,121 @@ For EVERY request, you MUST think hard and show your reasoning by:
    - ログ出力: セキュリティイベントの記録
 ```
 
-## 🔧 **Mandatory Code Modification Protocol**
+## 🔗 **Code Consistency and Global Optimization Requirements**
 
-When modifying, refactoring, or improving existing code, you MUST provide a clear explanation in Japanese that covers these three critical aspects:
+**CRITICAL: Before making ANY code modification, you MUST ensure application-wide consistency and optimization.**
+
+### **既存コード調査義務 (Mandatory Existing Code Investigation)**
+
+Before modifying any code, you MUST:
+
+```
+[MANDATORY PRE-MODIFICATION ANALYSIS]
+
+1. 既存コードパターン分析 (Existing Code Pattern Analysis)
+   ├── プロジェクト全体のコーディング規約確認
+   ├── 命名規則の統一性チェック
+   ├── アーキテクチャパターンの識別
+   ├── エラーハンドリング方式の確認
+   ├── テストパターンの統一性確認
+   └── 依存関係管理方式の把握
+
+2. 関連コンポーネント影響分析 (Related Component Impact Analysis)
+   ├── 修正対象と連携するモジュールの特定
+   ├── データフローへの影響範囲の算出
+   ├── API契約への影響評価
+   ├── 既存テストへの影響範囲確認
+   ├── パフォーマンスへの全体影響評価
+   └── セキュリティポリシーとの整合性確認
+
+3. 全体最適化検証 (Global Optimization Verification)
+   ├── アプリケーション全体のパフォーマンス向上確認
+   ├── コード重複排除の機会特定
+   ├── 保守性向上への貢献度評価
+   ├── 技術的負債削減効果の測定
+   ├── 拡張性向上への寄与度確認
+   └── チーム開発効率への影響評価
+```
+
+### **必須実行手順 (Mandatory Execution Sequence)**
+
+**EVERY code modification MUST follow this exact sequence:**
+
+```
+[MANDATORY MODIFICATION SEQUENCE - 完全遵守が必要]
+
+STEP 1: 既存コード調査 (Existing Code Investigation)
+🔍 プロジェクト全体の関連ファイルを調査
+├── 同種のコンポーネント・機能の実装パターン確認
+├── 使用している技術スタック・ライブラリの統一性確認
+├── コーディングスタイル・フォーマット規則の把握
+├── エラーハンドリング・ログ出力パターンの確認
+└── テスト実装パターンの統一性確認
+
+STEP 2: 影響範囲分析 (Impact Analysis)
+📊 修正による全体への影響を分析
+├── 直接的に影響を受けるファイル・コンポーネントの特定
+├── 間接的に影響を受ける可能性のある箇所の洗い出し
+├── データベーススキーマやAPI仕様への影響確認
+├── 既存テストの修正が必要な範囲の特定
+└── デプロイメント手順への影響評価
+
+STEP 3: 修正理由の明文化 (Explicit Modification Rationale)
+📝 修正する理由を明確に説明
+├── なぜこの修正が必要なのか
+├── どのような問題を解決するのか
+├── 代替案と比較してなぜこの方法を選択するのか
+├── 全体最適化にどのように貢献するのか
+└── 予想されるリスクと対策は何か
+
+STEP 4: 全体最適化確認 (Global Optimization Confirmation)
+🎯 アプリケーション全体の最適化を確認
+├── 修正がプロジェクト全体のパフォーマンス向上に寄与するか
+├── コードの一貫性・統一性が保たれるか
+├── 保守性・可読性が向上するか
+├── セキュリティレベルが維持・向上するか
+└── チーム開発における生産性向上に貢献するか
+
+STEP 5: 修正実行 (Modification Execution)
+⚙️ 上記確認完了後に修正を実行
+```
+
+### **一貫性チェックリスト (Consistency Checklist)**
+
+**Every modification MUST pass ALL these checks:**
+
+- [ ] **命名規則の統一** (Naming Convention Consistency)
+
+  - 変数名、関数名、クラス名が既存のパターンに従っているか
+  - ファイル名・ディレクトリ構造が既存の規則に沿っているか
+
+- [ ] **アーキテクチャパターンの遵守** (Architecture Pattern Adherence)
+
+  - 既存のデザインパターンから逸脱していないか
+  - レイヤー分離の原則が保たれているか
+
+- [ ] **エラーハンドリングの統一** (Error Handling Consistency)
+
+  - エラー処理方式が既存のパターンと一致しているか
+  - ログ出力形式が統一されているか
+
+- [ ] **テスト戦略の一貫性** (Test Strategy Consistency)
+
+  - テストの記述方式が既存のパターンに従っているか
+  - カバレッジ要件が満たされているか
+
+- [ ] **パフォーマンス影響の確認** (Performance Impact Verification)
+
+  - アプリケーション全体のパフォーマンスを阻害していないか
+  - メモリ使用量・CPU 使用率への影響が最小限か
+
+- [ ] **セキュリティポリシーの遵守** (Security Policy Compliance)
+  - 既存のセキュリティ実装と整合性が取れているか
+  - セキュリティレベルが低下していないか
+
+## 🔧 **Enhanced Mandatory Code Modification Protocol**
+
+When modifying, refactoring, or improving existing code, you MUST provide a clear explanation in Japanese that covers these critical aspects:
 
 ### **必須説明要件 (Required Explanation Requirements)**
 
@@ -126,6 +238,13 @@ For EVERY code modification, you MUST explain in Japanese:
 
 ```
 [コード修正の根拠説明 - 全修正において必須]
+
+0. 事前調査結果 (Pre-Modification Investigation Results)
+   ├── 既存コードパターンの調査結果
+   ├── 関連コンポーネントの影響分析
+   ├── アプリケーション全体との整合性確認
+   ├── 修正による全体最適化効果の予測
+   └── 一貫性チェックリストの検証結果
 
 1. 修正理由 (Why This Code Needs Modification)
    ├── 現在のコードの問題点・課題の明確化
@@ -141,6 +260,7 @@ For EVERY code modification, you MUST explain in Japanese:
    ├── 設計パターンの選択理由
    ├── ライブラリ・フレームワークの選定理由
    ├── アーキテクチャ上の考慮事項
+   ├── 既存コードとの一貫性確保方法
    └── 将来の拡張性への配慮
 
 3. 修正効果 (Expected Benefits and Outcomes)
@@ -149,13 +269,36 @@ For EVERY code modification, you MUST explain in Japanese:
    ├── コード品質の改善内容
    ├── 開発効率の向上
    ├── ビジネス価値の向上
-   └── 技術的負債の削減効果
+   ├── 技術的負債の削減効果
+   └── アプリケーション全体への最適化貢献
+
+4. 全体影響評価 (Global Impact Assessment)
+   ├── 他のコンポーネントへの影響範囲
+   ├── 既存テストの修正必要性
+   ├── API仕様への影響
+   ├── データベーススキーマへの影響
+   ├── デプロイメント手順への影響
+   └── チーム開発への影響
 ```
 
-### **修正説明テンプレート (Modification Explanation Template)**
+### **修正説明テンプレート (Enhanced Modification Explanation Template)**
 
 ```markdown
 ## 🔧 コード修正の説明
+
+### 0. 事前調査結果 (Pre-Modification Investigation)
+
+**既存コードパターン調査:**
+
+- [プロジェクト全体のコーディング規約確認結果]
+- [関連する既存実装のパターン分析]
+- [使用技術スタックとの整合性確認]
+
+**影響範囲分析:**
+
+- [直接影響: 修正対象ファイル・コンポーネント]
+- [間接影響: 関連するモジュール・API]
+- [テスト影響: 修正が必要なテストケース]
 
 ### 1. 修正理由 (Why This Code Needs Modification)
 
@@ -163,6 +306,7 @@ For EVERY code modification, you MUST explain in Japanese:
 
 - [具体的な問題点を明記]
 - [セキュリティ・パフォーマンス・保守性の観点から]
+- [既存コードとの不整合点]
 
 ### 2. 修正方針 (Why This Specific Modification Approach)
 
@@ -170,6 +314,7 @@ For EVERY code modification, you MUST explain in Japanese:
 
 - [採用した技術・パターンの説明]
 - [なぜこのアプローチを選んだのか]
+- [既存コードとの一貫性をどう保つか]
 
 ### 3. 修正効果 (Expected Benefits and Outcomes)
 
@@ -179,9 +324,46 @@ For EVERY code modification, you MUST explain in Japanese:
 - [セキュリティ強化: 対策される脅威]
 - [コード品質: 可読性・保守性の向上]
 - [ビジネス価値: 提供される価値]
+- [全体最適化: アプリケーション全体への貢献]
+
+### 4. 全体影響評価 (Global Impact Assessment)
+
+**影響範囲と対策:**
+
+- [他コンポーネントへの影響と対策]
+- [必要なテスト修正範囲]
+- [API・DB への影響と移行計画]
+- [デプロイメント時の注意事項]
 ```
 
-### **修正例 (Example Code Modification with Explanation)**
+### **全体最適化の原則 (Global Optimization Principles)**
+
+**MANDATORY: Every code modification MUST adhere to these principles:**
+
+1. **統一性の原則 (Consistency Principle)**
+
+   - 既存のコーディング規約・パターンに完全準拠
+   - アーキテクチャの一貫性を保持
+   - チーム開発での可読性・理解しやすさを重視
+
+2. **全体最適の原則 (Global Optimization Principle)**
+
+   - 個別最適ではなく、アプリケーション全体の最適化を優先
+   - コードの重複排除・共通化の機会を積極的に活用
+   - 長期的な保守性・拡張性を考慮した設計
+
+3. **透明性の原則 (Transparency Principle)**
+
+   - 修正理由を明確に文書化
+   - 他の開発者が理解しやすい実装
+   - 変更履歴・影響範囲の明示
+
+4. **品質向上の原則 (Quality Improvement Principle)**
+   - セキュリティレベルの維持・向上
+   - パフォーマンスの改善・維持
+   - テストカバレッジの維持・向上
+
+### **修正例 (Example Code Modification with Enhanced Explanation)**
 
 ```javascript
 // ❌ 修正前のコード
@@ -197,23 +379,38 @@ const activeUsers = await db.query(
 
 **修正説明:**
 
+**0. 事前調査結果:**
+
+- 既存のデータベースアクセスパターンを調査し、プロジェクト全体でプリペアドステートメントを使用していることを確認
+- 同様のフィルタリング処理が複数箇所で実装されており、データベースレベルでの処理が標準パターン
+- 論理削除（deleted_at）フィールドを使用する設計が既存実装で確立されている
+
 **1. 修正理由:**
 
 - データベースから全ユーザーを取得後に JavaScript でフィルタリングするため、大量データ時にメモリ使用量が増大し、レスポンス時間が劣化する
 - SQL インジェクション攻撃の潜在的リスクが存在する
 - 論理削除されたユーザーも取得してしまう可能性がある
+- 既存のプロジェクト標準パターンから逸脱している
 
 **2. 修正方針:**
 
 - データベースレベルでのフィルタリングによりネットワーク転送量とメモリ使用量を最小化
-- プリペアドステートメントにより SQL インジェクション攻撃を防止
-- 削除済みデータの除外を明示的に実装
+- プロジェクト全体で使用されているプリペアドステートメントパターンに統一
+- 論理削除の除外を明示的に実装し、他の類似実装との一貫性を確保
 
 **3. 修正効果:**
 
 - パフォーマンス改善: データ転送量 90%削減、メモリ使用量 85%削減
 - セキュリティ強化: SQL インジェクション攻撃の完全防止
 - データ整合性: 論理削除されたデータの意図しない表示を防止
+- 全体最適化: プロジェクト標準パターンへの統一による保守性向上
+
+**4. 全体影響評価:**
+
+- 他コンポーネント: 類似のクエリパターンを使用している箇所も同様に最適化検討が必要
+- テスト影響: モックデータに deleted_at フィールドの追加が必要
+- API 影響: レスポンス形式に変更なし、パフォーマンス向上のみ
+- デプロイメント: 既存データベーススキーマと互換性あり、即座にデプロイ可能
 
 ## 🔍 **Ultra-Comprehensive Analysis Protocol**
 
@@ -962,7 +1159,7 @@ spec:
           averageUtilization: 80
 ```
 
-## 📋 **AI Output Requirements Checklist**
+## 📋 **Enhanced AI Output Requirements Checklist**
 
 For EVERY code generation request, you MUST provide:
 
@@ -973,6 +1170,15 @@ For EVERY code generation request, you MUST provide:
 - [ ] **代替案検討の表示** (Display of alternative options considered)
 - [ ] **リスク分析と対策** (Risk analysis and mitigation strategies)
 - [ ] **段階的思考の明示** (Step-by-step reasoning demonstration)
+
+### **コード一貫性と最適化 (Code Consistency and Optimization)**
+
+- [ ] **既存コード調査実施** (Mandatory existing code investigation completed)
+- [ ] **コーディング規約準拠** (Adherence to existing coding conventions)
+- [ ] **アーキテクチャ一貫性確保** (Architecture pattern consistency maintained)
+- [ ] **全体最適化確認** (Global optimization verification completed)
+- [ ] **影響範囲分析実施** (Impact analysis performed)
+- [ ] **修正理由明文化** (Explicit modification rationale provided)
 
 ### **Core Implementation**
 
@@ -989,6 +1195,7 @@ For EVERY code generation request, you MUST provide:
 - [ ] **修正効果の提示** (Specific benefits and outcomes expected from modifications)
 - [ ] **技術的根拠** (Technical justification for all architectural decisions)
 - [ ] **パフォーマンス指標** (Quantifiable performance improvement metrics)
+- [ ] **全体影響評価** (Global impact assessment completed)
 
 ### **Testing Suite**
 
@@ -1041,6 +1248,8 @@ Create a [description] with:
 - Production deployment configuration
 - Monitoring and alerting setup
 - Complete Japanese documentation for all code modifications
+- Consistent adherence to existing codebase patterns
+- Global optimization for application-wide performance
 ```
 
 ### **For APIs**
@@ -1058,6 +1267,8 @@ Create a REST API for [description] with:
 - Docker and Kubernetes deployment
 - API versioning strategy
 - Detailed modification explanations in Japanese
+- Full consistency with existing API patterns
+- Global optimization considerations
 ```
 
 ### **For Data Processing**
@@ -1075,6 +1286,8 @@ Create a data processing system for [description] with:
 - Complete test coverage
 - Monitoring and alerting
 - Japanese documentation for all architectural decisions
+- Consistency with existing data processing patterns
+- Global optimization for system-wide efficiency
 ```
 
 ## 🌟 **Success Metrics**
@@ -1082,6 +1295,9 @@ Create a data processing system for [description] with:
 Every AI-generated project will automatically achieve:
 
 - **🧠 Transparency**: Complete exposure of thought process and technical decision-making rationale
+- **🔗 Consistency**: Full adherence to existing codebase patterns and conventions
+- **🎯 Global Optimization**: Application-wide optimization rather than individual component optimization
+- **📝 Explicit Rationale**: Clear Japanese documentation of why every modification is made
 - **🛡️ Security**: Zero critical vulnerabilities (confirmed by automated scanning)
 - **⚡ Performance**: Core Web Vitals in "Good" range (LCP <2.5s, FID <100ms, CLS <0.1)
 - **♿ Accessibility**: WCAG 2.2 AA compliance (confirmed by automated testing)
@@ -1101,4 +1317,4 @@ Every AI-generated project will automatically achieve:
 
 ---
 
-_With this enhanced configuration, I can generate complete, production-ready applications with full transparency about every thought process and code modification. Every output will be enterprise-grade quality that exceeds industry standards, with complete exposure of reasoning and detailed Japanese explanations for all technical decisions! 🧠🚀_
+_With this enhanced configuration including code consistency and global optimization requirements, I can generate complete, production-ready applications with full transparency about every thought process and code modification. Every output will be enterprise-grade quality that exceeds industry standards, with complete exposure of reasoning, detailed Japanese explanations for all technical decisions, and guaranteed consistency with existing codebase patterns! 🧠🔗🚀_
