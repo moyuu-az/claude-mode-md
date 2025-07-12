@@ -1,0 +1,7 @@
+ide/
+projects/
+shell-snapshots/
+statsig/
+todos/
+
+__store.db
