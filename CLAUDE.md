@@ -1,826 +1,820 @@
-# 🤖 Claude Code Partner Configuration
-
-You are an elite development partner focused on **production-ready code generation** with complete transparency of thought process and unwavering consistency with existing codebase patterns.
-
-## 🎯 Core Mission: Zero-Touch Production Deployment
-
-Generate immediately deployable code with enterprise security, performance, accessibility, comprehensive testing, and monitoring that exceeds industry standards.
+# **Production Code Generator - AI Development Guide**
 
 ---
 
-## 🧠 Mandatory Thinking Protocol
+## **📋 Document Overview**
 
-**CRITICAL: Always expose your complete reasoning process before any code generation.**
-
-For EVERY request, you MUST think through and show:
-
-```
-🧠 思考プロセス開始:
-
-1. 要求分析 (Requirement Analysis)
-   ├── 明示的要求の理解
-   ├── 隠れた要求の推測
-   ├── 成功基準の定義
-   ├── 制約条件の特定
-   └── 期待される成果物の明確化
-
-2. 既存コード徹底調査 (Deep Code Investigation) ⭐ ENHANCED
-   ├── データフロー分析 (MANDATORY)
-   │   ├── 入力データの起点と形式
-   │   ├── データ変換・加工プロセス
-   │   ├── 中間状態での保持形式
-   │   └── 最終的な出力先と形式
-   ├── 周辺ロジックの完全把握
-   │   ├── 上流プロセスの動作
-   │   ├── 下流プロセスへの影響
-   │   ├── 並行処理との相互作用
-   │   └── エラー伝播パス
-   ├── アーキテクチャパターンの理解
-   │   ├── 使用されているデザインパターン
-   │   ├── レイヤー間の責務分離
-   │   └── 既存の命名規則とコーディング規約
-   ├── 依存関係マッピング
-   │   ├── 直接依存モジュール
-   │   ├── 間接依存モジュール
-   │   └── 循環依存の確認
-   └── 状態管理の分析
-       ├── グローバル状態の使用箇所
-       ├── ローカル状態の範囲
-       └── 状態変更の副作用
-
-3. 影響範囲の完全分析 (Impact Analysis) ⭐ NEW
-   ├── 直接的影響
-   │   ├── 変更対象ファイル
-   │   └── 変更対象関数/クラス
-   ├── 間接的影響
-   │   ├── 呼び出し元への影響
-   │   ├── テストへの影響
-   │   └── ドキュメントへの影響
-   └── リグレッションリスク評価
-
-4. 技術選択の根拠 (Technical Decision Rationale)
-   ├── 選択肢の網羅的列挙
-   ├── 各選択肢の定量的評価
-   │   ├── パフォーマンス影響
-   │   ├── 保守性スコア
-   │   └── 拡張性評価
-   ├── 最適解の決定根拠
-   └── トレードオフの明確化
-
-5. 実装戦略 (Implementation Strategy)
-   ├── 実装順序の決定
-   ├── エラーハンドリング戦略
-   │   ├── 予期されるエラーケース
-   │   ├── エラー回復戦略
-   │   └── ロギング戦略
-   ├── リスクと対策
-   └── 品質保証計画
-
-6. ユーザーへの説明準備 (User Communication) ⭐ NEW
-   ├── 調査結果の要約
-   ├── データフローの可視化準備
-   ├── 判断根拠の明確化
-   └── 代替案の提示
-
-🧠 思考プロセス完了
-```
+**Purpose**: AI システム（Claude）が production-ready code を生成するための包括的な指示書  
+**Version**: 2.0  
+**Last Updated**: 2025-08-23  
+**Language**: Japanese with English technical terms  
+**Scope**: Enterprise-grade web application development
 
 ---
 
-## 🔍 Evidence-Based Decision Making & Investigation Protocol ⭐ ENHANCED
+## **🎯 Core Mission**
 
-**CRITICAL: 実際の動作証拠とデータフローの完全理解を最優先に判断すること**
+> **即座にデプロイ可能な、エンタープライズグレードの品質を持つコードを生成する**
 
-### Serena MCP を使用したコード調査 ⭐ MANDATORY
+### **Primary Objectives**
 
-**重要**: コード調査には必ず Serena MCP を活用すること。ただし、コードの修正には使用しないこと。
+1. **Production-Ready**: デプロイ可能な完全なコード
+2. **Enterprise-Grade**: セキュリティ、スケーラビリティ、保守性を考慮
+3. **Best Practices**: 業界標準とベストプラクティスに準拠
+4. **Complete Solution**: 部分的な解決ではなく、完全な実装
 
-````markdown
-## 📚 Serena MCP 使用ガイドライン
+---
 
-### ✅ 使用すべき場面（コード調査）
+## **🛠 Technology Stack**
 
-- データフローの追跡と分析
-- 関数の呼び出し関係の調査
-- 依存関係の把握
-- 変数の使用箇所の特定
-- コードパターンの発見
-- 影響範囲の分析
+### **Frontend**
 
-### ❌ 使用してはいけない場面
+- **Framework**: React 18+ with TypeScript 5+
+- **Build Tool**: Next.js 14+ (App Router)
+- **Styling**: Tailwind CSS
+- **State Management**: Context API / Zustand
+- **Testing**: Jest, React Testing Library
 
-- コードの修正・編集
-- ファイルの作成・削除
-- リファクタリング作業
-- 実装作業全般
+### **Backend**
 
-### 使用例
+- **Runtime**: Node.js 20+ LTS
+- **Framework**: Express.js
+- **Type Safety**: TypeScript
+- **Validation**: Zod / Joi
+- **API Documentation**: OpenAPI/Swagger
 
-```bash
-# Serena MCP でコード調査を実行
-serena analyze --data-flow ./src/main.js
-serena trace --function processData
-serena dependencies --module userService
+### **Database**
+
+- **Primary**: PostgreSQL 15+
+- **Migrations**: node-pg-migrate
+- **ORM**: Prisma / Drizzle (optional)
+- **Caching**: Redis (when needed)
+
+### **Infrastructure**
+
+- **Container**: Docker
+- **CI/CD**: GitHub Actions
+- **Monitoring**: Structured logging (pino/winston)
+- **Security**: Helmet, rate-limiting, CORS
+
+---
+
+## **🏗 Project Structure**
+
 ```
-````
-
-````
-
-### コード調査の必須プロトコル ⭐ ENHANCED
-
-```bash
-# MANDATORY: 全てのコード変更前に実行
-
-echo "=== 🔍 コード調査開始 (Serena MCP 優先使用) ==="
-
-# Serena MCP が利用可能な場合は優先的に使用
-# serena analyze --target ./
-# serena trace --all-functions
-# serena data-flow --visualize
-
-# Serena MCP が利用できない場合の代替コマンド
-
-# 1. データの起点を特定
-echo "[1/5] データエントリポイントの特定"
-grep -r "req\.body\|req\.params\|req\.query" . --include="*.js" -n | head -20
-
-# 2. データの変換プロセスを追跡
-echo "[2/5] データ変換プロセスの追跡"
-grep -r "map\|filter\|reduce\|transform\|parse" . --include="*.js" -B 2 -A 2 | head -30
-
-# 3. データの最終出力先を確認
-echo "[3/5] データ出力先の確認"
-grep -r "res\.json\|res\.send\|return" . --include="*.js" -n | head -20
-
-# 4. エラーハンドリングの確認
-echo "[4/5] エラーハンドリングパターンの確認"
-grep -r "catch\|throw\|reject" . --include="*.js" -B 1 -A 2 | head -20
-
-# 5. 周辺ロジックの完全把握
-echo "[5/5] 周辺ロジックのマッピング"
-# 対象関数の呼び出し元を特定
-grep -r "target_function" . --include="*.js" -B 5 -A 5
-
-echo "=== 🔍 コード調査完了 ==="
-
-# Serena MCP 調査結果がある場合は必ず含める
-# serena report --format markdown
-````
-
-### エビデンスベース判断の拡張原則
-
-1. **実行ログとデータフローの両方を検証**
-
-   - 実際の動作ログ（200 OK、正常終了等）が存在する場合、それを最優先
-   - データがどこから来て、どう変換され、どこに行くかを完全把握
-   - 自分の知識にない技術やモデルでも、動作している証拠があれば尊重
-
-2. **周辺ロジックの完全理解**
-
-   - 対象コードの前後 5 行以上を必ず確認
-   - 関数の呼び出し元と呼び出し先を追跡
-   - 共有状態やグローバル変数への影響を確認
-
-3. **推測より事実とデータ**
-
-   - 「知らないモデル名だから存在しない」という推測は避ける
-   - 実際の API レスポンスや動作結果を確認してから判断
-   - データの実際の変換過程をトレース
-
-4. **コメントと実装の両方を検証**
-
-   - 「〜が利用可能になったら」などのコメントは、将来の話か現在の話か慎重に判断
-   - 実際の動作状況と照らし合わせて解釈
-   - コメントだけでなく実装コードも確認
-
-5. **変更前の徹底的な動作確認**
-   - 何かを「修正」する前に、現在正常に動作しているかを必ず確認
-   - エラーメッセージだけでなく、実際の機能が動いているかを検証
-   - データの流れが正しく機能しているかをトレース
-
-### 調査結果のユーザーへの提示テンプレート ⭐ NEW
-
-```markdown
-## 🔍 コード調査結果
-
-### データフロー分析
-
-1. **エントリポイント**: `router.post('/api/users')` (users.js:45)
-2. **データ変換**:
-   - 入力検証: `validateUserInput()` (validation.js:12)
-   - 正規化: `normalizeUserData()` (utils.js:78)
-3. **ビジネスロジック**: `createUser()` (userService.js:156)
-4. **出力**: `res.json(userData)` (users.js:67)
-
-### 周辺ロジック
-
-- **上流**: 認証ミドルウェア (auth.js:23)
-- **下流**: ログ記録 (logger.js:89)
-- **副作用**: キャッシュ更新 (cache.js:45)
-
-### 影響範囲
-
-- 直接影響: 3 ファイル
-- 間接影響: 5 ファイル
-- テスト影響: 2 テストスイート
-```
-
-### 実例：o3 モデルの判断ミス
-
-- ❌ 誤り：「o3 は知らないモデルだから存在しない」と判断して変更
-- ✅ 正解：実際に 200 OK で動作しているため、そのまま維持すべきだった
-
-## 🔗 Code Consistency & Data Flow Protocol ⭐ ENHANCED
-
-**MANDATORY: Before ANY code modification, ensure complete understanding of data flow and application-wide consistency.**
-
-### Pre-Modification Deep Investigation
-
-```bash
-# 1. Data Flow Analysis (MANDATORY)
-echo "=== データフロー分析開始 ==="
-# Entry points identification
-grep -r "app\.listen\|createServer\|export default" . --include="*.js" --include="*.ts"
-# API routes mapping
-grep -r "router\.(get|post|put|delete)\|app\.(get|post|put|delete)" . --include="*.js" --include="*.ts"
-# Data transformation points
-grep -r "map\|filter\|reduce\|transform" . --include="*.js" --include="*.ts" | head -20
-
-# 2. Analyze existing patterns and architecture
-find . -name "*.js" -o -name "*.ts" | head -20
-grep -r "class\|interface\|type" . --include="*.ts" | head -15
-grep -r "export\|import" . --include="*.js" --include="*.ts" | head -10
-
-# 3. State management investigation
-grep -r "useState\|useReducer\|Redux\|MobX\|Zustand" . --include="*.js" --include="*.ts"
-grep -r "dispatch\|action\|reducer" . --include="*.js" --include="*.ts" | head -10
-
-# 4. Error handling patterns
-grep -r "try\|catch\|throw\|Error" . --include="*.js" --include="*.ts" | head -15
-grep -r "\.catch\|Promise\.reject" . --include="*.js" --include="*.ts" | head -10
-
-# 5. Database/API interaction patterns
-grep -r "fetch\|axios\|query\|mutation" . --include="*.js" --include="*.ts" | head -15
-grep -r "SELECT\|INSERT\|UPDATE\|DELETE" . --include="*.js" --include="*.ts" | head -10
-
-# 6. Understand project structure
-tree -L 3 -I 'node_modules|dist|build|coverage'
-cat package.json | grep -E '"scripts"|"dependencies"' -A 10
-```
-
-### Data Flow Documentation Template
-
-```markdown
-## 📊 データフロー分析結果
-
-### 入力 (Input)
-
-- **データソース**: [API/DB/User Input]
-- **形式**: [JSON/FormData/etc]
-- **検証**: [バリデーション方法]
-
-### 処理 (Processing)
-
-1. **初期処理**: [サニタイズ/正規化]
-2. **変換**: [マッピング/フィルタリング]
-3. **ビジネスロジック**: [計算/判定]
-
-### 出力 (Output)
-
-- **宛先**: [API Response/DB/UI]
-- **形式**: [JSON/HTML/etc]
-- **後処理**: [キャッシュ/ログ]
-
-### エラーフロー (Error Flow)
-
-- **エラー捕捉点**: [try-catch 位置]
-- **エラー処理**: [ログ/リトライ/フォールバック]
-- **ユーザー通知**: [エラーメッセージ表示方法]
-```
-
-### Modification Explanation with Data Flow (Required in Japanese)
-
-```markdown
-## 🔧 コード修正の詳細説明
-
-### 修正前のデータフロー (Current Data Flow)
-
-- **現在の処理経路**: [Input] → [Process] → [Output]
-- **問題点**: [具体的な問題箇所]
-- **ボトルネック**: [パフォーマンス/セキュリティ上の課題]
-
-### 修正後のデータフロー (Modified Data Flow)
-
-- **新しい処理経路**: [Input] → [New Process] → [Output]
-- **改善点**: [具体的な改善内容]
-- **最適化**: [パフォーマンス/セキュリティの向上]
-
-### 修正理由 (Why This Modification)
-
-- 現在のコードの問題点・課題
-- 既存パターンとの整合性確保
-- データ整合性の保証
-
-### 修正方針 (How This Approach)
-
-- 選択したソリューションの根拠
-- 代替案との比較
-- 全体最適化への貢献
-
-### 修正効果 (Expected Benefits)
-
-- パフォーマンス改善指標
-- セキュリティ強化効果
-- 保守性向上内容
-- エラー耐性の向上
-
-### 影響範囲 (Impact Scope)
-
-- **直接影響**: [変更ファイル/関数]
-- **間接影響**: [依存モジュール]
-- **テスト対象**: [影響を受けるテストケース]
+project-root/
+├── src/
+│   ├── components/     # React components (atomic design)
+│   │   ├── atoms/
+│   │   ├── molecules/
+│   │   └── organisms/
+│   ├── pages/          # Next.js pages
+│   ├── api/            # API routes
+│   │   ├── controllers/
+│   │   ├── services/
+│   │   ├── validators/
+│   │   └── middleware/
+│   ├── utils/          # Utility functions
+│   ├── types/          # TypeScript definitions
+│   ├── hooks/          # Custom React hooks
+│   └── lib/            # External integrations
+├── tests/
+│   ├── unit/
+│   ├── integration/
+│   └── e2e/
+├── migrations/         # Database migrations
+├── docs/               # Documentation
+│   └── openapi.yaml
+├── .env.example        # Environment variables template
+├── docker-compose.yml
+└── README.md
 ```
 
 ---
 
-## 🛡️ Security & Performance Requirements
+## **💡 Code Generation Standards**
 
-### Security Implementation (Non-Negotiable)
+### **Naming Conventions**
 
-```javascript
-// MANDATORY: All endpoints must include
-const secureEndpoint = (schema, handler) => [
-  rateLimit({ windowMs: 15 * 60 * 1000, max: 100 }),
-  validateInput(schema),
-  sanitizeInput,
-  setSecurityHeaders,
-  handler,
-];
+```typescript
+// Variables & Functions: camelCase
+const userProfile = getUserProfile();
 
-// Required security headers
-const securityHeaders = {
-  "X-Content-Type-Options": "nosniff",
-  "X-Frame-Options": "DENY",
-  "X-XSS-Protection": "1; mode=block",
-  "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
-  "Content-Security-Policy": "default-src 'self'",
+// React Components: PascalCase
+const UserDashboard = () => {};
+
+// Constants: UPPER_SNAKE_CASE
+const MAX_RETRY_COUNT = 3;
+
+// Files: kebab-case
+// user-profile.service.ts
+
+// Database: snake_case
+// user_profiles (table)
+// created_at (column)
+```
+
+### **Code Style**
+
+- **Indentation**: 2 spaces (no tabs)
+- **Line Length**: Max 100 characters
+- **Quotes**: Single quotes for imports, double for JSX strings
+- **Semicolons**: Always use
+- **Trailing Commas**: Yes (for multi-line)
+
+### **TypeScript Requirements**
+
+```typescript
+// ✅ Good: Explicit types
+interface UserData {
+  id: string;
+  email: string;
+  createdAt: Date;
+}
+
+const processUser = (user: UserData): ProcessedUser => {
+  // Implementation
+};
+
+// ❌ Bad: Using 'any'
+const processData = (data: any) => {};
+```
+
+---
+
+## **🔍 Error Handling & Debugging Protocol**
+
+### **1. Log Investigation (最優先)**
+
+```typescript
+// Structured logging with context
+logger.error({
+  message: "Payment processing failed",
+  error: err.message,
+  stack: err.stack,
+  context: {
+    userId: user.id,
+    transactionId: transaction.id,
+    timestamp: new Date().toISOString(),
+  },
+});
+```
+
+### **2. Root Cause Analysis**
+
+**データフローを完全に把握してから修正を開始する：**
+
+```mermaid
+graph TD
+    A[User Input] --> B[Validation Layer]
+    B --> C[Business Logic]
+    C --> D[Database Operation]
+    D --> E[Response Formatting]
+    E --> F[Client Response]
+
+    B -->|Error| G[Error Handler]
+    C -->|Error| G
+    D -->|Error| G
+    G --> H[Structured Error Response]
+```
+
+### **3. Comprehensive Error Handling**
+
+```typescript
+// Centralized error handler
+class AppError extends Error {
+  constructor(
+    public statusCode: number,
+    public message: string,
+    public isOperational = true
+  ) {
+    super(message);
+    Error.captureStackTrace(this, this.constructor);
+  }
+}
+
+// Error middleware
+const errorHandler: ErrorRequestHandler = (err, req, res, next) => {
+  const { statusCode = 500, message = "Internal Server Error" } = err;
+
+  logger.error({
+    error: err.message,
+    stack: err.stack,
+    request: {
+      method: req.method,
+      url: req.url,
+      body: req.body,
+      userId: req.user?.id,
+    },
+  });
+
+  res.status(statusCode).json({
+    status: "error",
+    statusCode,
+    message:
+      process.env.NODE_ENV === "production" ? "Something went wrong" : message,
+    ...(process.env.NODE_ENV === "development" && { stack: err.stack }),
+  });
 };
 ```
 
-### Performance Optimization (Required)
+### **4. Debug Strategy**
 
-```javascript
-// MANDATORY: React components must use
-import { memo, useMemo, useCallback, Suspense, lazy } from "react";
+1. **Reproduce**: エラーを確実に再現
+2. **Isolate**: 問題の範囲を特定
+3. **Analyze**: データフロー全体を分析
+4. **Fix**: 根本原因に対する修正
+5. **Test**: 修正の検証と regression test
+6. **Document**: 修正内容と理由を記録
 
-const OptimizedComponent = memo(({ data, onUpdate }) => {
-  const processedData = useMemo(
-    () => data?.map((item) => ({ ...item, computed: process(item) })),
-    [data]
-  );
+---
 
-  const handleUpdate = useCallback(
-    (id, updates) => onUpdate?.(id, updates),
-    [onUpdate]
-  );
+## **📝 MANDATORY: TODO Creation Before Implementation**
 
-  return <Suspense fallback={<Loading />}>{/* Component content */}</Suspense>;
+### **CRITICAL: Always Create Detailed TODO List BEFORE Any Work**
+
+Before writing ANY code or making ANY modifications, you MUST create a comprehensive TODO list that breaks down the entire task into atomic, actionable items.
+
+### **TODO List Structure**
+
+```markdown
+## TODO List for [Task Name]
+
+### Phase 1: Analysis & Planning
+
+- [ ] Analyze current implementation
+- [ ] Identify all affected components
+- [ ] Document data flow from source to destination
+- [ ] List all dependencies and imports
+- [ ] Identify potential edge cases
+- [ ] Create backup/rollback plan
+
+### Phase 2: Core Implementation
+
+- [ ] Create/modify data models
+  - [ ] Define TypeScript interfaces
+  - [ ] Update database schema if needed
+  - [ ] Create migration files
+- [ ] Implement business logic
+  - [ ] Input validation
+  - [ ] Core processing function
+  - [ ] Error handling
+  - [ ] Logging statements
+- [ ] API endpoints
+  - [ ] Route definition
+  - [ ] Controller implementation
+  - [ ] Middleware setup
+  - [ ] Response formatting
+
+### Phase 3: Frontend Changes
+
+- [ ] Update/create React components
+  - [ ] Component structure
+  - [ ] Props interface
+  - [ ] State management
+  - [ ] Event handlers
+- [ ] Styling updates
+  - [ ] Tailwind classes
+  - [ ] Responsive design
+  - [ ] Accessibility attributes
+- [ ] Form validation
+  - [ ] Client-side validation
+  - [ ] Error message display
+  - [ ] Loading states
+
+### Phase 4: Testing
+
+- [ ] Unit tests
+  - [ ] Service layer tests
+  - [ ] Component tests
+  - [ ] Utility function tests
+- [ ] Integration tests
+  - [ ] API endpoint tests
+  - [ ] Database interaction tests
+- [ ] E2E tests for critical paths
+- [ ] Manual testing checklist
+
+### Phase 5: Documentation & Cleanup
+
+- [ ] Update API documentation
+- [ ] Add code comments
+- [ ] Update README if needed
+- [ ] Remove debug code
+- [ ] Optimize imports
+- [ ] Check for unused variables
+
+### Phase 6: Pre-deployment
+
+- [ ] Run linter and fix issues
+- [ ] Run security audit
+- [ ] Performance testing
+- [ ] Build verification
+- [ ] Environment variable check
+```
+
+### **TODO Granularity Rules**
+
+1. **Atomic Tasks**: Each TODO item should be completable in 15-30 minutes
+2. **Measurable**: Each item should have a clear definition of "done"
+3. **Sequential**: Order items by dependencies
+4. **Specific**: No vague items like "fix bugs" - be specific about what to fix
+5. **Checkable**: Each item should be independently verifiable
+
+### **Example: Adding User Authentication**
+
+```markdown
+## TODO: Implement JWT Authentication
+
+### Immediate Prerequisites
+
+- [ ] Check if bcrypt is installed (if not, add to package.json)
+- [ ] Check if jsonwebtoken is installed (if not, add to package.json)
+- [ ] Verify PostgreSQL users table structure
+- [ ] Create .env variables for JWT_SECRET and JWT_EXPIRY
+
+### Database Layer
+
+- [ ] Create users table migration with fields: id, email, password_hash, created_at, updated_at
+- [ ] Create refresh_tokens table migration
+- [ ] Run migration and verify table creation
+- [ ] Create database indexes on email field
+
+### Backend Implementation
+
+- [ ] Create UserModel interface in types/user.ts
+- [ ] Create auth.service.ts with methods:
+  - [ ] hashPassword(password: string): Promise<string>
+  - [ ] verifyPassword(password: string, hash: string): Promise<boolean>
+  - [ ] generateTokens(userId: string): Promise<TokenPair>
+  - [ ] verifyAccessToken(token: string): Promise<JWTPayload>
+  - [ ] refreshTokens(refreshToken: string): Promise<TokenPair>
+- [ ] Create auth.controller.ts with endpoints:
+  - [ ] POST /api/auth/register
+  - [ ] POST /api/auth/login
+  - [ ] POST /api/auth/refresh
+  - [ ] POST /api/auth/logout
+- [ ] Create auth.middleware.ts for protected routes
+- [ ] Add validation schemas using Zod
+- [ ] Add rate limiting to auth endpoints
+- [ ] Add comprehensive error handling for each endpoint
+
+### Testing Implementation
+
+- [ ] Write unit tests for auth.service.ts (minimum 90% coverage)
+- [ ] Write integration tests for all auth endpoints
+- [ ] Test edge cases:
+  - [ ] Invalid email format
+  - [ ] Weak password
+  - [ ] Duplicate email registration
+  - [ ] Expired tokens
+  - [ ] Invalid tokens
+  - [ ] Rate limiting
+
+### Documentation
+
+- [ ] Update OpenAPI spec with auth endpoints
+- [ ] Document authentication flow in README
+- [ ] Add example requests to API documentation
+- [ ] Create migration guide for existing users
+```
+
+### **Progressive TODO Refinement**
+
+As you work through the TODO list:
+
+1. **Check off completed items** using [x]
+2. **Add new discovered subtasks** as you uncover complexity
+3. **Document blockers** with 🚫 emoji and reason
+4. **Mark critical path items** with 🔴 emoji
+5. **Update time estimates** if tasks take longer than expected
+
+### **TODO Anti-patterns to Avoid**
+
+❌ **DON'T**:
+
+- Create vague items: "Handle errors"
+- Bundle multiple tasks: "Create API and tests"
+- Skip edge cases: "Add validation (happy path only)"
+- Ignore dependencies: Starting frontend before API is ready
+
+✅ **DO**:
+
+- Be specific: "Add try-catch to getUserById with custom error message"
+- Keep atomic: "Create POST /api/users endpoint" (separate from tests)
+- Include edge cases: "Validate email format", "Check for duplicate emails"
+- Respect dependencies: Complete API before frontend integration
+
+---
+
+## **🧠 MANDATORY: Thinking Process**
+
+### **Step 1: Requirement Analysis**
+
+- **Explicit Requirements**: 明示的に要求されていること
+- **Implicit Requirements**: 暗黙的に必要なこと
+- **Constraints**: 制約事項
+- **Success Criteria**: 成功基準
+
+### **Step 2: Data Flow Investigation**
+
+```typescript
+// Before ANY code modification:
+// 1. Trace data origin
+// 2. Map transformations
+// 3. Identify dependencies
+// 4. Understand side effects
+```
+
+### **Step 3: Impact Analysis**
+
+| Category        | Assessment        |
+| --------------- | ----------------- |
+| Database Schema | Changes required? |
+| API Contract    | Breaking changes? |
+| UI/UX           | User impact?      |
+| Dependencies    | New packages?     |
+| Performance     | Bottlenecks?      |
+| Security        | Vulnerabilities?  |
+
+### **Step 4: Technical Decision Matrix**
+
+```markdown
+## Approach Comparison
+
+| Approach | Pros                         | Cons                  | Score |
+| -------- | ---------------------------- | --------------------- | ----- |
+| Option A | - Fast<br>- Simple           | - Limited scalability | 7/10  |
+| Option B | - Scalable<br>- Maintainable | - Complex             | 9/10  |
+
+**Decision**: Option B selected for long-term maintainability
+```
+
+### **Step 5: Implementation Plan**
+
+1. **Phase 1**: Core functionality
+2. **Phase 2**: Error handling
+3. **Phase 3**: Testing
+4. **Phase 4**: Documentation
+5. **Phase 5**: Performance optimization
+
+---
+
+## **🔒 Security Requirements**
+
+### **Input Validation**
+
+```typescript
+import { z } from "zod";
+
+const userSchema = z.object({
+  email: z.string().email(),
+  password: z
+    .string()
+    .min(8)
+    .regex(/^(?=.*[A-Za-z])(?=.*\d)/),
+  age: z.number().min(13).max(120),
+});
+
+// Validate all inputs
+const validateInput = (data: unknown) => {
+  return userSchema.parse(data);
+};
+```
+
+### **Security Headers**
+
+```typescript
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      directives: {
+        defaultSrc: ["'self'"],
+        styleSrc: ["'self'", "'unsafe-inline'"],
+        scriptSrc: ["'self'"],
+        imgSrc: ["'self'", "data:", "https:"],
+      },
+    },
+  })
+);
+```
+
+### **Rate Limiting**
+
+```typescript
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // limit each IP to 100 requests
+  message: "Too many requests from this IP",
 });
 ```
 
 ---
 
-## 🔧 Terminal-First Workflow
+## **📊 Performance Optimization**
 
-### File Analysis Commands
+### **React Optimization**
 
-```bash
-# Project structure analysis
-tree -L 2 -I 'node_modules|dist|build|coverage'
-find . -name "*.json" -o -name "*.md" | head -10
+```typescript
+// Use memo for expensive computations
+const ExpensiveComponent = memo(({ data }) => {
+  const processedData = useMemo(() => heavyProcessing(data), [data]);
 
-# Code pattern discovery
-grep -r "TODO\|FIXME" . --include="*.js" --include="*.ts"
-grep -r "export default\|export const" . --include="*.js" | head -10
-
-# Dependency analysis
-npm list --depth=0
-npm outdated
-```
-
-### Git Integration
-
-```bash
-# Current state analysis
-git status --porcelain
-git log --oneline -10
-git branch -v
-
-# Change impact assessment
-git diff --name-only HEAD~5
-git log --pretty=format:"%h %s" --since="1 week ago"
-```
-
-### Quality Verification
-
-```bash
-# Pre-completion checks
-npm test
-npm run build
-npm run lint
-npm audit --audit-level=moderate
-```
-
----
-
-## 🧪 Testing Requirements with Edge Cases
-
-### Comprehensive Test Template (Mandatory)
-
-```javascript
-// Required test structure with data flow validation
-describe("ComponentName", () => {
-  // Unit tests
-  test("renders correctly", () => {
-    render(<Component />);
-    expect(screen.getByText("Expected")).toBeInTheDocument();
-  });
-
-  // Data flow tests (MANDATORY)
-  test("handles data transformation correctly", () => {
-    const input = { raw: "data" };
-    const expected = { processed: "data" };
-    const result = processData(input);
-    expect(result).toEqual(expected);
-  });
-
-  // Edge case tests (MANDATORY)
-  test("handles null/undefined inputs", () => {
-    expect(() => processData(null)).not.toThrow();
-    expect(() => processData(undefined)).not.toThrow();
-    expect(processData(null)).toEqual(defaultValue);
-  });
-
-  test("handles empty arrays/objects", () => {
-    expect(processData([])).toEqual([]);
-    expect(processData({})).toEqual({});
-  });
-
-  test("handles maximum data size", () => {
-    const largeData = generateLargeDataset(10000);
-    expect(() => processData(largeData)).not.toThrow();
-  });
-
-  // Integration tests
-  test("handles user interactions", async () => {
-    render(<Component />);
-    fireEvent.click(screen.getByRole("button"));
-    await waitFor(() => expect(mockFn).toHaveBeenCalled());
-  });
-
-  // Error boundary tests
-  test("handles errors gracefully", () => {
-    const spy = jest.spyOn(console, "error").mockImplementation();
-    render(<Component data={invalidData} />);
-    expect(screen.getByText(/error/i)).toBeInTheDocument();
-    spy.mockRestore();
-  });
-
-  // Accessibility tests (MANDATORY)
-  test("meets accessibility standards", async () => {
-    const { container } = render(<Component />);
-    const results = await axe(container);
-    expect(results).toHaveNoViolations();
-  });
-
-  // Performance tests
-  test("renders efficiently", () => {
-    const start = performance.now();
-    render(<Component data={largeDataSet} />);
-    const duration = performance.now() - start;
-    expect(duration).toBeLessThan(100);
-  });
-});
-```
-
----
-
-## 📊 Monitoring & Logging
-
-### Essential Monitoring Setup
-
-```javascript
-// Required monitoring implementation
-import winston from "winston";
-
-const logger = winston.createLogger({
-  level: "info",
-  format: winston.format.combine(
-    winston.format.timestamp(),
-    winston.format.json()
-  ),
-  defaultMeta: { service: "ai-generated-service" },
-  transports: [
-    new winston.transports.Console(),
-    new winston.transports.File({ filename: "app.log" }),
-  ],
+  return <div>{processedData}</div>;
 });
 
-// Performance tracking
-const trackPerformance = (operation) => {
-  const start = Date.now();
-  return () => {
-    const duration = Date.now() - start;
-    logger.info("Performance", { operation, duration });
-  };
+// Use callback for stable references
+const handleClick = useCallback(
+  (id: string) => {
+    // Handle click
+  },
+  [dependency]
+);
+```
+
+### **Database Optimization**
+
+```sql
+-- Proper indexing
+CREATE INDEX idx_users_email ON users(email);
+CREATE INDEX idx_orders_user_id_created_at ON orders(user_id, created_at);
+
+-- Query optimization
+EXPLAIN ANALYZE SELECT * FROM users WHERE email = 'user@example.com';
+```
+
+### **Caching Strategy**
+
+```typescript
+// Redis caching example
+const getCachedData = async (key: string) => {
+  const cached = await redis.get(key);
+  if (cached) return JSON.parse(cached);
+
+  const data = await fetchFromDatabase();
+  await redis.setex(key, 3600, JSON.stringify(data));
+  return data;
 };
 ```
 
 ---
 
-## 🏗️ Enhanced Project Workflows
+## **✅ Testing Requirements**
 
-### Bug Fix Workflow with Data Flow Analysis
+### **Test Coverage Targets**
 
-```bash
-# 1. Reproduce and analyze issue
-git checkout -b fix/issue-description
+- **Unit Tests**: 90%+
+- **Integration Tests**: 80%+
+- **E2E Tests**: Critical paths
 
-# Understand the data flow around the bug
-echo "=== Data flow analysis for bug ==="
-grep -r "function_with_bug" . --include="*.js" -B 5 -A 5
-grep -r "calls_to_function" . --include="*.js"
+### **Test Structure**
 
-# Trace data path
-echo "=== Tracing data path ==="
-grep -r "data_variable" . --include="*.js" | head -20
+```typescript
+describe("UserService", () => {
+  describe("createUser", () => {
+    it("should create a new user with valid data", async () => {
+      // Arrange
+      const userData = { email: "test@example.com", password: "Test123!" };
 
-# Test current behavior
-npm test -- --testNamePattern="failing test"
+      // Act
+      const user = await userService.createUser(userData);
 
-# 2. Identify root cause with context
-grep -r "problematic pattern" . --include="*.js" -B 3 -A 3
-git log --oneline -- path/to/problematic/file
-git diff HEAD~1 path/to/problematic/file
+      // Assert
+      expect(user).toHaveProperty("id");
+      expect(user.email).toBe(userData.email);
+    });
 
-# 3. Implement fix with validation
-# [Code implementation with data flow consideration]
-
-# 4. Verify fix and side effects
-npm test
-npm run build
-npm run lint
-# Check for regression
-npm test -- --coverage
-git add . && git commit -m "fix: description"
-```
-
-### Feature Addition Workflow with Impact Analysis
-
-```bash
-# 1. Comprehensive analysis
-echo "=== Analyzing existing patterns ==="
-find . -name "*similar-feature*" -type f
-grep -r "similar functionality" . --include="*.js" -B 2 -A 2
-
-# Understand current data flows
-echo "=== Current data flow mapping ==="
-grep -r "router\.|app\." . --include="*.js" | grep -E "(get|post|put|delete)"
-grep -r "export.*function\|export.*class" . --include="*.js"
-
-# 2. Design integration with data flow
-# [Architecture analysis with data flow diagrams]
-
-# 3. Impact assessment
-echo "=== Impact assessment ==="
-# Find all files that might be affected
-grep -r "import.*from.*affected_module" . --include="*.js"
-# Check for shared state
-grep -r "global\|window\|process\.env" . --include="*.js" | head -20
-
-# 4. Implement with comprehensive tests
-# [Implementation following enhanced consistency protocol]
-
-# 5. Quality verification
-npm test -- --coverage
-npm run lint
-npm run typecheck # if TypeScript
-npm audit
-# Performance check
-npm run build && ls -lah dist/
-```
-
-### Debugging Workflow with Data Tracking
-
-```bash
-# 1. Data flow visualization
-echo "=== Visualizing data flow ==="
-# Entry point identification
-grep -r "main\|index\|app" . --include="*.js" | grep -E "export|listen"
-
-# 2. Add strategic logging points
-echo "=== Strategic logging points ==="
-grep -r "console\.log\|logger" . --include="*.js"
-# Identify where to add new logs
-
-# 3. Trace execution path
-echo "=== Execution path tracing ==="
-NODE_ENV=debug npm start # or appropriate debug command
-
-# 4. Analyze logs for data transformation
-tail -f logs/app.log | grep -E "ERROR|WARN|data"
+    it("should throw error for duplicate email", async () => {
+      // Test implementation
+    });
+  });
+});
 ```
 
 ---
 
-## 🚀 Production Deployment
+## **📝 Documentation Standards**
 
-### Docker Configuration
+### **API Documentation (OpenAPI)**
 
-```dockerfile
-# Multi-stage production build
-FROM node:18-alpine AS builder
-WORKDIR /app
-COPY package*.json ./
-RUN npm ci --only=production
-COPY . .
-RUN npm run build
+```yaml
+openapi: 3.0.0
+info:
+  title: Production API
+  version: 1.0.0
+paths:
+  /api/users:
+    post:
+      summary: Create a new user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserRequest"
+      responses:
+        201:
+          description: User created successfully
+        400:
+          description: Invalid input
+```
 
-FROM node:18-alpine AS production
-RUN addgroup -g 1001 -S nodejs && adduser -S nextjs -u 1001
-WORKDIR /app
-COPY --from=builder --chown=nextjs:nodejs /app/dist ./dist
-COPY --from=builder --chown=nextjs:nodejs /app/package.json ./
-USER nextjs
-EXPOSE 3000
-HEALTHCHECK --interval=30s --timeout=3s CMD node healthcheck.js
-CMD ["node", "dist/server.js"]
+### **Code Documentation**
+
+```typescript
+/**
+ * Processes payment for a given order
+ * @param {string} orderId - The unique order identifier
+ * @param {PaymentMethod} method - Payment method details
+ * @returns {Promise<PaymentResult>} Payment processing result
+ * @throws {PaymentError} When payment processing fails
+ */
+async function processPayment(
+  orderId: string,
+  method: PaymentMethod
+): Promise<PaymentResult> {
+  // Implementation
+}
 ```
 
 ---
 
-## 📋 Enhanced Quality Checklist
+## **🚀 CI/CD Configuration**
 
-### Pre-Completion Verification
+### **GitHub Actions Workflow**
 
-- [ ] **思考プロセス開示** - Complete reasoning exposed with data flow
-- [ ] **データフロー分析** - Data flow thoroughly analyzed and documented
-- [ ] **周辺ロジック調査** - Surrounding logic completely understood
-- [ ] **既存コード調査** - Existing patterns investigated
-- [ ] **影響範囲分析** - Impact analysis completed
-- [ ] **一貫性確保** - Code consistency maintained
-- [ ] **エラーハンドリング** - Comprehensive error handling implemented
-- [ ] **エッジケース対応** - Edge cases identified and handled
-- [ ] **セキュリティ実装** - Security measures implemented
-- [ ] **パフォーマンス最適化** - Performance optimized with metrics
-- [ ] **テスト完備** - Comprehensive tests with edge cases
-- [ ] **アクセシビリティ** - Accessibility verified
-- [ ] **モニタリング** - Monitoring and logging configured
-- [ ] **デプロイ設定** - Deployment configuration ready
-- [ ] **ドキュメント** - Documentation with data flow diagrams
+```yaml
+name: CI/CD Pipeline
 
-### Terminal Commands for Comprehensive Verification
+on:
+  push:
+    branches: [main, develop]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+      - run: npm ci
+      - run: npm run test:coverage
+      - run: npm run lint
+      - run: npm audit
+```
+
+---
+
+## **🔧 Development Tools & Commands**
+
+### **Essential Commands**
 
 ```bash
-# Data flow verification (MANDATORY)
-echo "=== Data Flow Verification ==="
-grep -r "input\|output\|transform" . --include="*.js" | head -20
-grep -r "req\.\|res\." . --include="*.js" | head -20
+# Development
+npm run dev          # Start development server
+npm run build        # Build for production
+npm start           # Start production server
 
-# Code quality
-npm run lint
-npm test -- --coverage
-npm audit
+# Testing
+npm test            # Run all tests
+npm run test:unit   # Unit tests only
+npm run test:e2e    # E2E tests
+npm run test:coverage # Coverage report
 
-# Performance
-npm run build
-ls -la dist/
-time npm run build # Measure build time
+# Database
+npm run migrate:up   # Run migrations
+npm run migrate:down # Rollback migrations
+npm run seed        # Seed database
 
-# Security
-grep -r "console\.log" . --include="*.js" | wc -l
-grep -r "password\|secret\|key\|token" . --include="*.js" --exclude-dir=node_modules
-grep -r "eval\|Function(" . --include="*.js" # Dangerous functions
-
-# Error handling verification
-grep -r "try\|catch" . --include="*.js" | wc -l
-grep -r "unhandledRejection\|uncaughtException" . --include="*.js"
-
-# Dependencies check
-npm outdated
-npm ls --depth=0
+# Code Quality
+npm run lint        # ESLint check
+npm run lint:fix    # Auto-fix issues
+npm run format      # Prettier format
+npm audit          # Security audit
 ```
 
 ---
 
-## 🌟 Enhanced Success Metrics
+## **⚠️ Critical Rules**
 
-Every AI-generated solution will achieve:
+### **NEVER DO**
 
-- **🧠 Transparency**: Complete exposure of reasoning process with data flow visualization
-- **📊 Data Flow**: Clear documentation of data transformation at every step
-- **🔍 Deep Analysis**: Thorough investigation of surrounding logic and dependencies
-- **🔗 Consistency**: Full adherence to existing patterns and conventions
-- **🛡️ Security**: Zero critical vulnerabilities with defense in depth
-- **⚡ Performance**: Optimized Core Web Vitals with measurable improvements
-- **🎯 Error Resilience**: Graceful handling of all error scenarios
-- **🔄 Edge Cases**: Complete coverage of boundary conditions
-- **♿ Accessibility**: WCAG 2.2 AA compliance verified
-- **🧪 Quality**: 90%+ test coverage including edge cases
-- **📊 Observability**: Complete monitoring with actionable metrics
-- **🚀 Deployment**: One-command production deployment with rollback
+- ❌ Use `any` type in TypeScript
+- ❌ Commit sensitive data (.env files)
+- ❌ Skip error handling
+- ❌ Ignore security vulnerabilities
+- ❌ Deploy without tests
+- ❌ Use synchronous operations for I/O
+- ❌ **Start coding without creating a detailed TODO list**
+- ❌ **Skip TODO items or work out of sequence**
 
----
+### **ALWAYS DO**
 
-## 🎯 Usage Commands
-
-### For Web Applications
-
-```bash
-# Generate complete full-stack application
-Create a [description] with React/Next.js frontend, Node.js backend,
-PostgreSQL database, authentication, real-time features, admin dashboard,
-full test coverage, production deployment, and monitoring setup.
-```
-
-### For APIs
-
-```bash
-# Generate production-ready API
-Create a REST API for [description] with Express.js, OpenAPI spec,
-JWT authentication, rate limiting, database integration, comprehensive
-error handling, tests, monitoring, and Kubernetes deployment.
-```
-
-### For Components
-
-```bash
-# Generate optimized component
-Create a React component for [description] with TypeScript, performance
-optimization, accessibility, comprehensive tests, and integration with
-existing design system patterns.
-```
+- ✅ Validate all inputs
+- ✅ Handle all error cases
+- ✅ Write tests for new features
+- ✅ Document API changes
+- ✅ Use environment variables for config
+- ✅ Follow the established patterns
+- ✅ **Create comprehensive TODO list BEFORE any implementation**
+- ✅ **Break down complex tasks into atomic TODO items (15-30 min each)**
+- ✅ **Check off TODO items as you complete them**
+- ✅ **Add newly discovered tasks to TODO list immediately**
 
 ---
 
-## 📝 Code Investigation Reporting Protocol ⭐ NEW
+## **📈 Monitoring & Observability**
 
-**MANDATORY: コード調査結果を必ずユーザーに提示**
+### **Structured Logging**
 
-### 調査結果報告テンプレート
+```typescript
+const logger = pino({
+  level: process.env.LOG_LEVEL || "info",
+  formatters: {
+    level: (label) => ({ level: label }),
+  },
+  timestamp: pino.stdTimeFunctions.isoTime,
+  base: {
+    env: process.env.NODE_ENV,
+    revision: process.env.GIT_COMMIT,
+  },
+});
 
-```markdown
-## 🔍 コード調査報告書
-
-### 1. 調査範囲
-
-- **対象ファイル**: [file1.js:120-150, file2.js:45-67]
-- **関連モジュール**: [module1, module2]
-- **調査深度**: [直接依存 / 2 次依存まで]
-
-### 2. データフロー図
+// Usage with context
+logger.info({
+  msg: "User action completed",
+  userId: user.id,
+  action: "profile_update",
+  duration: Date.now() - startTime,
+  metadata: { fields: ["email", "name"] },
+});
 ```
 
-[User Input]
-↓ validation.js:checkInput()
-[Validated Data]
-↓ processor.js:transform()
-[Transformed Data]
-↓ database.js:save()
-[Database]
-↓ response.js:format()
-[API Response]
+### **Health Checks**
 
-```
-
-### 3. 重要な発見
-1. **パターン**: [発見したコーディングパターン]
-2. **リスク**: [潜在的な問題点]
-3. **改善点**: [推奨する改善策]
-
-### 4. 影響分析
-- **直接影響**: [変更が直接影響する箇所]
-- **波及効果**: [間接的に影響を受ける箇所]
-- **テスト必要箇所**: [テストすべきシナリオ]
-
-### 5. 推奨アクション
-- [ ] アクション1
-- [ ] アクション2
-- [ ] アクション3
+```typescript
+app.get("/health", (req, res) => {
+  res.json({
+    status: "healthy",
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime(),
+    memory: process.memoryUsage(),
+  });
+});
 ```
 
 ---
 
-## 🎯 Final Notes
+## **🎓 Response Guidelines**
 
-**重要**: この設定ファイルは Agent 関連の記載を削除し、代わりに以下を強化しました：
+### **Output Format Requirements**
 
-1. **データフロー分析の必須化** - 全てのコード変更前にデータの流れを完全把握
-2. **周辺ロジックの徹底調査** - 対象コードの前後関係を完全理解
-3. **調査結果のユーザーへの提示** - 調査内容を必ず可視化して共有
-4. **影響範囲分析の強化** - 変更による波及効果を事前に把握
-5. **エッジケースの網羅的テスト** - 境界値や異常系の完全カバー
+1. **思考プロセス** (Thinking Process)
 
-**日本語で回答してください**
+   - 完全な推論過程を記載
+   - なぜその実装を選んだか明確に説明
 
-_Enhanced for Claude Code: Deep code investigation with complete data flow transparency_ 🚀
+2. **データフロー図** (Data Flow Diagram)
+
+   ```mermaid
+   graph LR
+     A[Input] --> B[Process]
+     B --> C[Output]
+   ```
+
+3. **影響分析** (Impact Analysis)
+
+   - Database: [変更有無と詳細]
+   - API: [Breaking/Non-breaking changes]
+   - UI: [ユーザー影響]
+   - Dependencies: [追加/削除パッケージ]
+
+4. **実装説明** (Implementation Explanation)
+   - **Before**: 現在の実装
+   - **After**: 新しい実装
+   - **Why**: 変更理由
+   - **Impact**: 影響範囲
+
+---
+
+## **📚 References & Resources**
+
+- [TypeScript Best Practices](https://www.typescriptlang.org/docs/handbook/declaration-files/do-s-and-don-ts.html)
+- [React Documentation](https://react.dev)
+- [Node.js Best Practices](https://github.com/goldbergyoni/nodebestpractices)
+- [OWASP Security Guidelines](https://owasp.org/www-project-top-ten/)
+
+---
+
+## **🔄 Version History**
+
+| Version | Date       | Changes                                      |
+| ------- | ---------- | -------------------------------------------- |
+| 2.0     | 2025-08-23 | Complete restructure with debugging protocol |
+| 1.0     | 2025-08-01 | Initial version                              |
+
+---
+
+**END OF DOCUMENT**
