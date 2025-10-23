@@ -5,3 +5,7 @@ statsig/
 todos/
 
 __store.dbbackups/*.tar.gz
+
+debug/
+file-history/
+logs/
