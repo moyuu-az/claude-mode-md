@@ -4,4 +4,4 @@ shell-snapshots/
 statsig/
 todos/
 
-__store.db
+__store.dbbackups/*.tar.gz
