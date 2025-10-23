@@ -1,6 +1,6 @@
 ---
 name: test
-description: "カバレッジ分析と自動品質レポートを含むテストの実行"
+description: "カバレッジ分析と自動化された品質レポートによるテストの実行"
 category: utility
 complexity: enhanced
 mcp-servers: [playwright]

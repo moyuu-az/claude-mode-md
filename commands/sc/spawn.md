@@ -1,6 +1,6 @@
 ---
 name: spawn
-description: "インテリジェントな分解と委譲によるメタシステムタスクオーケストレーション（複雑なタスクを複数のエージェントに分割・委譲）"
+description: "インテリジェントな分解と委任によるメタシステムタスクオーケストレーション"
 category: special
 complexity: high
 mcp-servers: []

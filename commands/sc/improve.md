@@ -1,6 +1,6 @@
 ---
 name: improve
-description: "コード品質、パフォーマンス、保守性への体系的な改善の適用"
+description: "コード品質、パフォーマンス、保守性に対する体系的な改善の適用"
 category: workflow
 complexity: standard
 mcp-servers: [sequential, context7]

@@ -1,6 +1,6 @@
 ---
 name: estimate
-description: "インテリジェントな分析によるタスク、機能、プロジェクトの開発見積もり提供"
+description: "インテリジェントな分析によるタスク、機能、プロジェクトの開発見積もりの提供"
 category: special
 complexity: standard
 mcp-servers: [sequential, context7]

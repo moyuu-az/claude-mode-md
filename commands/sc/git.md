@@ -1,6 +1,6 @@
 ---
 name: git
-description: "インテリジェントなコミットメッセージとワークフロー最適化を備えたGit操作"
+description: "インテリジェントなコミットメッセージとワークフロー最適化によるGit操作"
 category: utility
 complexity: basic
 mcp-servers: []

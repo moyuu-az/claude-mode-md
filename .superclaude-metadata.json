@@ -2,13 +2,15 @@
   "commands": {
     "auto_update": false,
     "enabled": true,
-    "version": "4.0.8"
+    "version": "4.2.0"
   },
   "components": {
     "agents": {
-      "agents_count": 14,
+      "agents_count": 16,
       "agents_list": [
         "backend-architect.md",
+        "business-panel-experts.md",
+        "deep-research-agent.md",
         "devops-architect.md",
         "frontend-architect.md",
         "learning-guide.md",
@@ -24,47 +26,57 @@
         "technical-writer.md"
       ],
       "category": "agents",
-      "installed_at": "2025-08-26T20:54:16.418453",
-      "version": "4.0.8"
+      "installed_at": "2025-10-11T13:42:16.094906",
+      "version": "4.2.0"
     },
     "commands": {
       "category": "commands",
-      "files_count": 21,
-      "installed_at": "2025-08-26T20:54:16.411785",
-      "version": "4.0.8"
+      "files_count": 25,
+      "installed_at": "2025-10-11T13:42:16.105961",
+      "version": "4.2.0"
     },
     "core": {
       "category": "core",
-      "files_count": 3,
-      "installed_at": "2025-08-26T20:54:16.398294",
-      "version": "4.0.8"
+      "files_count": 6,
+      "installed_at": "2025-10-11T13:42:16.086591",
+      "version": "4.2.0"
     },
     "mcp": {
-      "configured_servers": [
+      "category": "integration",
+      "installed_at": "2025-10-11T13:43:22.802089",
+      "installed_servers": [
+        "serena",
         "context7",
-        "sequential",
+        "tavily",
         "playwright",
-        "serena"
+        "chrome-devtools",
+        "sequential-thinking",
+        "magic",
+        "morphllm-fast-apply"
       ],
-      "installed": true,
-      "servers_configured": 4,
-      "version": "4.0.8"
+      "servers_count": 8,
+      "version": "4.2.0"
     },
     "mcp_docs": {
-      "files_count": 4,
+      "files_count": 9,
       "installed": true,
       "servers_documented": [
+        "serena",
         "context7",
         "sequential",
+        "tavily",
+        "morphllm",
         "playwright",
-        "serena"
+        "sequential-thinking",
+        "magic",
+        "morphllm-fast-apply"
       ],
-      "version": "4.0.8"
+      "version": "4.2.0"
     },
     "modes": {
-      "files_count": 5,
+      "files_count": 7,
       "installed": true,
-      "version": "4.0.8"
+      "version": "4.2.0"
     }
   },
   "framework": {
@@ -74,12 +86,26 @@
     "description": "AI-enhanced development framework for Claude Code",
     "installation_type": "global",
     "name": "SuperClaude",
-    "version": "4.0.8"
+    "version": "4.2.0"
+  },
+  "mcp": {
+    "auto_update": false,
+    "enabled": true,
+    "servers": [
+      "serena",
+      "context7",
+      "tavily",
+      "playwright",
+      "chrome-devtools",
+      "sequential-thinking",
+      "magic",
+      "morphllm-fast-apply"
+    ]
   },
   "superclaude": {
     "auto_update": false,
     "enabled": true,
     "profile": "default",
-    "version": "4.0.8"
+    "version": "4.2.0"
   }
 }

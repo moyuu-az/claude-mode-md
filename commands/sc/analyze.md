@@ -1,6 +1,6 @@
 ---
 name: analyze
-description: "品質、セキュリティ、パフォーマンス、アーキテクチャの各領域にわたる包括的なコード分析"
+description: "品質、セキュリティ、パフォーマンス、アーキテクチャ領域にわたる包括的なコード分析"
 category: utility
 complexity: basic
 mcp-servers: []

@@ -840,3 +840,21 @@ app.get("/health", (req, res) => {
 @MCP_Playwright.md
 @MCP_Sequential.md
 @MCP_Serena.md
+
+# ===================================================
+# SuperClaude Framework Components
+# ===================================================
+
+# MCP Documentation
+@MCP_Magic.md
+@MCP_Morphllm.md
+@MCP_Tavily.md
+
+# Core Framework
+@BUSINESS_PANEL_EXAMPLES.md
+@BUSINESS_SYMBOLS.md
+@RESEARCH_CONFIG.md
+
+# Behavioral Modes
+@MODE_Business_Panel.md
+@MODE_DeepResearch.md

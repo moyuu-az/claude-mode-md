@@ -1,6 +1,6 @@
 ---
 name: workflow
-description: "PRD（製品要求仕様書）と機能要件から構造化された実装ワークフローの生成"
+description: "PRDと機能要件からの構造化された実装ワークフローの生成"
 category: orchestration
 complexity: advanced
 mcp-servers: [sequential, context7, magic, playwright, morphllm, serena]

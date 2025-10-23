@@ -1,6 +1,6 @@
 ---
 name: reflect
-description: "Serena MCPの分析機能を使用したタスクの振り返りと検証"
+description: "Serena MCP分析機能を使用したタスクの振り返りと検証"
 category: special
 complexity: standard
 mcp-servers: [serena]

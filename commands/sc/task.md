@@ -1,6 +1,6 @@
 ---
 name: task
-description: "インテリジェントなワークフロー管理と委譲による複雑なタスクの実行"
+description: "インテリジェントなワークフロー管理と委任による複雑なタスクの実行"
 category: special
 complexity: advanced
 mcp-servers: [sequential, context7, magic, playwright, morphllm, serena]

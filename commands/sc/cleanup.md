@@ -1,6 +1,6 @@
 ---
 name: cleanup
-description: "コードの体系的なクリーンアップ、デッドコードの削除、プロジェクト構造の最適化"
+description: "体系的なコードクリーンアップ、デッドコードの削除、プロジェクト構造の最適化"
 category: workflow
 complexity: standard
 mcp-servers: [sequential, context7]
