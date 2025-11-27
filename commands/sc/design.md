@@ -1,6 +1,6 @@
 ---
 name: design
-description: "包括的な仕様によるシステムアーキテクチャ、API、コンポーネントインターフェースの設計"
+description: "Design system architecture, APIs, and component interfaces with comprehensive specifications"
 category: utility
 complexity: basic
 mcp-servers: []

@@ -1,6 +1,6 @@
 ---
 name: load
-description: "プロジェクトコンテキストロードのためのSerena MCP統合によるセッションライフサイクル管理"
+description: "Session lifecycle management with Serena MCP integration for project context loading"
 category: session
 complexity: standard
 mcp-servers: [serena]

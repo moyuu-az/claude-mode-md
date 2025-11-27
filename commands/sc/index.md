@@ -1,6 +1,6 @@
 ---
 name: index
-description: "インテリジェントな組織化による包括的なプロジェクトドキュメントとナレッジベースの生成"
+description: "Generate comprehensive project documentation and knowledge base with intelligent organization"
 category: special
 complexity: standard
 mcp-servers: [sequential, context7]

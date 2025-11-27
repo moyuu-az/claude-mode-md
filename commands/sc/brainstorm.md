@@ -1,6 +1,6 @@
 ---
 name: brainstorm
-description: "ソクラテス式対話と体系的な探索による対話型の要件発見"
+description: "Interactive requirements discovery through Socratic dialogue and systematic exploration"
 category: orchestration
 complexity: advanced
 mcp-servers: [sequential, context7, magic, playwright, morphllm, serena]

@@ -1,6 +1,6 @@
 ---
 name: save
-description: "セッションコンテキスト永続化のためのSerena MCP統合によるセッションライフサイクル管理"
+description: "Session lifecycle management with Serena MCP integration for session context persistence"
 category: session
 complexity: standard
 mcp-servers: [serena]

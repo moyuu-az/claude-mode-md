@@ -1,6 +1,6 @@
 ---
 name: select-tool
-description: "複雑度スコアリングと操作分析に基づくインテリジェントなMCPツール選択"
+description: "Intelligent MCP tool selection based on complexity scoring and operation analysis"
 category: special
 complexity: high
 mcp-servers: [serena, morphllm]

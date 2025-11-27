@@ -4,7 +4,7 @@
 ---
 command: "/sc:business-panel"
 category: "Analysis & Strategic Planning"  
-purpose: "適応的な対話モードによる複数専門家のビジネス分析"
+purpose: "Multi-expert business analysis with adaptive interaction modes"
 wave-enabled: true
 performance-profile: "complex"
 ---

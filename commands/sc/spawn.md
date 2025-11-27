@@ -1,6 +1,6 @@
 ---
 name: spawn
-description: "インテリジェントな分解と委任によるメタシステムタスクオーケストレーション"
+description: "Meta-system task orchestration with intelligent breakdown and delegation"
 category: special
 complexity: high
 mcp-servers: []

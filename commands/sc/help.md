@@ -1,6 +1,6 @@
 ---
 name: help
-description: "利用可能なすべての/scコマンドとその機能の一覧表示"
+description: "List all available /sc commands and their functionality"
 category: utility
 complexity: low
 mcp-servers: []

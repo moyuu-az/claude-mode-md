@@ -1,6 +1,6 @@
 ---
 name: troubleshoot
-description: "コード、ビルド、デプロイメント、システム動作における問題の診断と解決"
+description: "Diagnose and resolve issues in code, builds, deployments, and system behavior"
 category: utility
 complexity: basic
 mcp-servers: []

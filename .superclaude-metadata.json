@@ -26,32 +26,32 @@
         "technical-writer.md"
       ],
       "category": "agents",
-      "installed_at": "2025-10-11T13:42:16.094906",
+      "installed_at": "2025-11-08T11:45:06.895363",
       "version": "4.2.0"
     },
     "commands": {
       "category": "commands",
       "files_count": 25,
-      "installed_at": "2025-10-11T13:42:16.105961",
+      "installed_at": "2025-11-08T11:45:06.905972",
       "version": "4.2.0"
     },
     "core": {
       "category": "core",
       "files_count": 6,
-      "installed_at": "2025-10-11T13:42:16.086591",
+      "installed_at": "2025-11-08T11:45:06.887792",
       "version": "4.2.0"
     },
     "mcp": {
       "category": "integration",
-      "installed_at": "2025-10-11T13:43:22.802089",
+      "installed_at": "2025-11-08T11:45:42.567989",
       "installed_servers": [
-        "serena",
-        "context7",
-        "tavily",
-        "playwright",
-        "chrome-devtools",
         "sequential-thinking",
         "magic",
+        "chrome-devtools",
+        "playwright",
+        "context7",
+        "serena",
+        "tavily",
         "morphllm-fast-apply"
       ],
       "servers_count": 8,
@@ -61,14 +61,14 @@
       "files_count": 9,
       "installed": true,
       "servers_documented": [
-        "serena",
-        "context7",
-        "sequential",
-        "tavily",
-        "morphllm",
-        "playwright",
         "sequential-thinking",
         "magic",
+        "morphllm",
+        "playwright",
+        "sequential",
+        "context7",
+        "serena",
+        "tavily",
         "morphllm-fast-apply"
       ],
       "version": "4.2.0"
@@ -92,13 +92,13 @@
     "auto_update": false,
     "enabled": true,
     "servers": [
-      "serena",
-      "context7",
-      "tavily",
-      "playwright",
-      "chrome-devtools",
       "sequential-thinking",
       "magic",
+      "chrome-devtools",
+      "playwright",
+      "context7",
+      "serena",
+      "tavily",
       "morphllm-fast-apply"
     ]
   },

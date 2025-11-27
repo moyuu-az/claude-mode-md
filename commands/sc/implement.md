@@ -1,6 +1,6 @@
 ---
 name: implement
-description: "インテリジェントなペルソナ活性化とMCP統合による機能とコードの実装"
+description: "Feature and code implementation with intelligent persona activation and MCP integration"
 category: workflow
 complexity: standard
 mcp-servers: [context7, sequential, magic, playwright]

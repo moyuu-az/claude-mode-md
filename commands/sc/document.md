@@ -1,6 +1,6 @@
 ---
 name: document
-description: "コンポーネント、関数、API、機能に焦点を当てたドキュメントの生成"
+description: "Generate focused documentation for components, functions, APIs, and features"
 category: utility
 complexity: basic
 mcp-servers: []

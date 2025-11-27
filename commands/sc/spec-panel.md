@@ -1,6 +1,6 @@
 ---
 name: spec-panel
-description: "著名な仕様およびソフトウェアエンジニアリング専門家による複数専門家の仕様レビューと改善"
+description: "Multi-expert specification review and improvement using renowned specification and software engineering experts"
 category: analysis
 complexity: enhanced
 mcp-servers: [sequential, context7]

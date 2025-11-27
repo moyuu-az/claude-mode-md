@@ -1,6 +1,6 @@
 ---
 name: research
-description: 適応的な計画とインテリジェント検索による深いWeb調査
+description: Deep web research with adaptive planning and intelligent search
 category: command
 complexity: advanced
 mcp-servers: [tavily, sequential, playwright, serena]

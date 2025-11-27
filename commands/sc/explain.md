@@ -1,6 +1,6 @@
 ---
 name: explain
-description: "教育的な明確さを持つコード、概念、システム動作の明確な説明の提供"
+description: "Provide clear explanations of code, concepts, and system behavior with educational clarity"
 category: workflow
 complexity: standard
 mcp-servers: [sequential, context7]

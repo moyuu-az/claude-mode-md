@@ -1,6 +1,6 @@
 ---
 name: build
-description: "インテリジェントなエラー処理と最適化によるプロジェクトのビルド、コンパイル、パッケージング"
+description: "Build, compile, and package projects with intelligent error handling and optimization"
 category: utility
 complexity: enhanced
 mcp-servers: [playwright]
