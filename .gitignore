@@ -9,3 +9,25 @@ __store.dbbackups/*.tar.gz
 debug/
 file-history/
 logs/
+
+# Cache & temporary
+cache/
+image-cache/
+paste-cache/
+plugins/cache/
+plugins/blocklist.json
+plugins/install-counts-cache.json
+plugins/marketplaces/
+session-env/
+sessions/
+stats-cache.json
+tasks/
+telemetry/
+plans/
+mcp-needs-auth-cache.json
+
+# Local/sensitive
+settings.local.json
+history.jsonl
+vercel-plugin-device-id
+vercel-plugin-telemetry-preference

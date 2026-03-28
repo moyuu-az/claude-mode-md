@@ -1,80 +1,93 @@
 #!/bin/bash
+# Claude Code Status Line - 3-line display with rate limits
+# Reads JSON from stdin, outputs ANSI-colored 3-line status
 
-# Claude Code Status Line Script
-# Displays: Model • Directory • Branch • Context Size • Auto-compact %
-
-# Read JSON input from stdin
 input=$(cat)
 
-# Extract basic information
-model_name=$(echo "$input" | jq -r '.model.display_name')
-current_dir=$(echo "$input" | jq -r '.workspace.current_dir')
-transcript_path=$(echo "$input" | jq -r '.transcript_path')
+# ── Extract from stdin JSON ──
+MODEL=$(echo "$input" | jq -r '.model.display_name // "Unknown"' 2>/dev/null)
+DIR=$(echo "$input" | jq -r '.cwd // .workspace.current_dir // "."' 2>/dev/null)
 
-# Change to working directory and get git branch
-cd "$current_dir" 2>/dev/null
-branch=$(git branch --show-current 2>/dev/null || echo "no-git")
-dir_name=$(basename "$current_dir")
+# Context window usage
+CTX=$(echo "$input" | jq -r '.context_window.used_percentage // 0' 2>/dev/null)
+[[ "$CTX" == "null" || -z "$CTX" ]] && CTX=0
 
-# Initialize token counters
-total_input_tokens=0
-total_cache_creation_tokens=0
-total_cache_read_tokens=0
-total_output_tokens=0
+# Lines changed from cost section
+ADD=$(echo "$input" | jq -r '.cost.total_lines_added // 0' 2>/dev/null)
+DEL=$(echo "$input" | jq -r '.cost.total_lines_removed // 0' 2>/dev/null)
+[[ "$ADD" == "null" ]] && ADD=0
+[[ "$DEL" == "null" ]] && DEL=0
 
-# Parse transcript file if it exists
-if [[ -f "$transcript_path" ]]; then
-    while IFS= read -r line; do
-        if [[ -n "$line" && "$line" != "null" ]]; then
-            # Extract token usage from each line
-            usage=$(echo "$line" | jq -r '.message.usage // empty' 2>/dev/null)
-            if [[ -n "$usage" && "$usage" != "null" ]]; then
-                input_tokens=$(echo "$usage" | jq -r '.input_tokens // 0')
-                cache_creation_tokens=$(echo "$usage" | jq -r '.cache_creation_input_tokens // 0')
-                cache_read_tokens=$(echo "$usage" | jq -r '.cache_read_input_tokens // 0')
-                output_tokens=$(echo "$usage" | jq -r '.output_tokens // 0')
-                
-                # Add to totals (ensure numeric values)
-                [[ "$input_tokens" =~ ^[0-9]+$ ]] && total_input_tokens=$((total_input_tokens + input_tokens))
-                [[ "$cache_creation_tokens" =~ ^[0-9]+$ ]] && total_cache_creation_tokens=$((total_cache_creation_tokens + cache_creation_tokens))
-                [[ "$cache_read_tokens" =~ ^[0-9]+$ ]] && total_cache_read_tokens=$((total_cache_read_tokens + cache_read_tokens))
-                [[ "$output_tokens" =~ ^[0-9]+$ ]] && total_output_tokens=$((total_output_tokens + output_tokens))
-            fi
-        fi
-    done < "$transcript_path"
+# Git info (cd to cwd to get correct branch, especially in worktrees)
+BRANCH="N/A"
+WORKTREE=""
+if cd "$DIR" 2>/dev/null && git rev-parse --git-dir >/dev/null 2>&1; then
+  BRANCH=$(git branch --show-current 2>/dev/null || echo "detached")
+  [[ -z "$BRANCH" ]] && BRANCH="detached"
+  # Detect worktree: if .git is a file (not a directory), we're in a linked worktree
+  TOPLEVEL=$(git rev-parse --show-toplevel 2>/dev/null)
+  if [[ -n "$TOPLEVEL" && -f "$TOPLEVEL/.git" ]]; then
+    WORKTREE=" [wt]"
+  fi
+  # Fallback: get diff stats if not provided
+  if [[ "$ADD" == "0" && "$DEL" == "0" ]]; then
+    read -r ADD DEL < <(git diff --numstat 2>/dev/null | awk '{a+=$1;d+=$2} END{printf "%d %d",a+0,d+0}')
+  fi
 fi
 
-# Calculate total context tokens
-total_context_tokens=$((total_input_tokens + total_cache_creation_tokens + total_cache_read_tokens + total_output_tokens))
+# ── ANSI Colors (24-bit true color) ──
+cG='\033[38;2;151;201;195m'  # green  #97C9C3
+cY='\033[38;2;229;192;123m'  # yellow #E5C07B
+cR='\033[38;2;224;108;117m'  # red    #E06C75
+cD='\033[38;2;74;88;92m'     # gray   #4A585C
+cN='\033[0m'                  # reset
 
-# Format token display
-if [[ $total_context_tokens -gt 0 ]]; then
-    # Format tokens with K/M suffix
-    if [[ $total_context_tokens -ge 1000000 ]]; then
-        tokens_display=$(echo "scale=1; $total_context_tokens / 1000000" | bc -l 2>/dev/null || echo "$total_context_tokens")
-        tokens_display="${tokens_display}M"
-    elif [[ $total_context_tokens -ge 1000 ]]; then
-        tokens_display=$(echo "scale=1; $total_context_tokens / 1000" | bc -l 2>/dev/null || echo "$total_context_tokens")
-        tokens_display="${tokens_display}K"
-    else
-        tokens_display="$total_context_tokens"
-    fi
-    
-    # Calculate auto-compact percentage (assuming 200K context limit and 90% threshold)
-    context_limit=200000
-    auto_compact_threshold=$((context_limit * 90 / 100))  # 90% of 200K = 180K
-    
-    if [[ $total_context_tokens -ge $auto_compact_threshold ]]; then
-        compact_percentage=100
-    else
-        compact_percentage=$((total_context_tokens * 100 / auto_compact_threshold))
-    fi
-    
-    # Build status line with token information
-    status_line="$model_name • $dir_name • $branch • ${tokens_display} tokens • ${compact_percentage}% to compact"
-else
-    # Fallback to basic status if no token data
-    status_line="$model_name • $dir_name • $branch"
+# Color for percentage
+cc() {
+  local p=${1:-0}
+  (( p <= 49 )) && printf "$cG" && return
+  (( p <= 79 )) && printf "$cY" && return
+  printf "$cR"
+}
+
+# Progress bar: 10 segments using filled/empty blocks
+pb() {
+  local f=$(( ${1:-0} / 10 )) bar=""
+  (( f > 10 )) && f=10; (( f < 0 )) && f=0
+  for ((i=0;i<f;i++)); do bar+="▰"; done
+  for ((i=f;i<10;i++)); do bar+="▱"; done
+  echo "$bar"
+}
+
+# ── Rate Limits (from stdin JSON, already provided) ──
+fp=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // 0' 2>/dev/null)
+sp=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // 0' 2>/dev/null)
+[[ "$fp" == "null" || -z "$fp" ]] && fp=0
+[[ "$sp" == "null" || -z "$sp" ]] && sp=0
+
+fr="" sr=""
+
+# 5-hour reset time (epoch seconds from JSON)
+f_epoch=$(echo "$input" | jq -r '.rate_limits.five_hour.resets_at // empty' 2>/dev/null)
+if [[ -n "$f_epoch" && "$f_epoch" != "null" ]]; then
+  h=$(TZ=Asia/Tokyo date -r "$f_epoch" "+%l" 2>/dev/null | tr -d ' ')
+  ap=$(TZ=Asia/Tokyo date -r "$f_epoch" "+%p" 2>/dev/null | tr '[:upper:]' '[:lower:]')
+  [[ -n "$h" ]] && fr="Reset ${h}${ap}"
 fi
 
-echo "$status_line"
+# 7-day reset time (epoch seconds from JSON)
+s_epoch=$(echo "$input" | jq -r '.rate_limits.seven_day.resets_at // empty' 2>/dev/null)
+if [[ -n "$s_epoch" && "$s_epoch" != "null" ]]; then
+  m=$(TZ=Asia/Tokyo date -r "$s_epoch" "+%b" 2>/dev/null)
+  d=$(TZ=Asia/Tokyo date -r "$s_epoch" "+%e" 2>/dev/null | tr -d ' ')
+  h=$(TZ=Asia/Tokyo date -r "$s_epoch" "+%l" 2>/dev/null | tr -d ' ')
+  ap=$(TZ=Asia/Tokyo date -r "$s_epoch" "+%p" 2>/dev/null | tr '[:upper:]' '[:lower:]')
+  [[ -n "$h" ]] && sr="Reset ${m}${d} ${h}${ap}"
+fi
+
+# ── Output 3 lines ──
+S="${cD}|${cN}"
+
+printf "%b\n" "${MODEL} ${S} $(cc $CTX)${CTX}%${cN} ${S} +${ADD}/-${DEL} ${S} ${BRANCH}${WORKTREE}"
+printf "%b\n" "5h $(cc $fp)$(pb $fp) ${fp}%${cN}  ${fr}"
+printf "%b"   "7d $(cc $sp)$(pb $sp) ${sp}%${cN}  ${sr}"

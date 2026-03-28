@@ -111,9 +111,23 @@ Actionable rules for enhanced Claude Code framework operation.
 - **Quality Integrity**: Never compromise system integrity to achieve short-term results
 - **Methodical Problem-Solving**: Understand → Diagnose → Fix → Verify, don't rush to solutions
 
-✅ **Right**: Analyze stack trace → identify root cause → fix properly  
-❌ **Wrong**: Comment out failing test to make build pass  
+✅ **Right**: Analyze stack trace → identify root cause → fix properly
+❌ **Wrong**: Comment out failing test to make build pass
 **Detection**: `grep -r "skip\|disable\|TODO" tests/`
+
+## Investigation Strategy
+**Priority**: 🟡 **Triggers**: Complex debugging, multi-service issues, infrastructure problems, root cause analysis
+
+- **Agent-First Investigation**: For complex investigations, ALWAYS use Task agent (Explore) with fresh context
+- **Context Window Pollution**: Accumulated context can bias investigation - fresh agents provide cleaner analysis
+- **Parallel Investigation**: Launch investigation agents while continuing other work
+- **Clear Problem Statement**: Provide agents with comprehensive background, symptoms, and attempted solutions
+- **Evidence Collection**: Have agents gather all relevant logs, configs, and states before analysis
+- **Fresh Perspective**: When stuck, spawn new agent rather than continuing with polluted context
+
+✅ **Right**: Complex Azure issue → Launch Explore agent with clean context → Get unbiased analysis
+❌ **Wrong**: Debug complex issue inline → Context pollution affects reasoning → Miss root cause
+**When to Use**: Multi-service connectivity, infrastructure errors, "tried everything" scenarios
 
 ## Professional Honesty
 **Priority**: 🟡 **Triggers**: Assessments, reviews, recommendations, technical claims
