@@ -42,14 +42,14 @@
 
 **Vault**: `Code-Notizbuch` | **Skill**: `~/.claude/skills/obsidian-doc/SKILL.md`
 
-作業完了時に Obsidian vault にドキュメントを書き出すこと:
-- **セッション終了**: `Sessions/YYYY-MM-DD-title.md`
-- **設計決定**: `Decisions/YYYY-MM-DD-title.md` (ADR形式)
-- **機能実装**: `Features/YYYY-MM-DD-title.md`
-- **バグ修正**: `Bugs/YYYY-MM-DD-title.md`
-- **調査完了**: `Research/YYYY-MM-DD-title.md`
+作業完了時に Obsidian vault にドキュメントを書き出すこと。
 
-制約: YAML frontmatter 必須 (type, date, project, tags, status)、`[[wikilink]]` でクロスリファレンス、`YYYY-MM-DD-kebab-case-title.md` 命名規則。
+**階層構造**: `{Type}/{project}/{YYYY-MM}/YYYY-MM-DD-title.md`
+- 例: `Sessions/claude-code-config/2026-03/2026-03-28-skill-creation.md`
+
+**プロジェクト MOC**: 新規プロジェクト初回時に `Index/Projects/{project}.md` を作成。
+
+制約: YAML frontmatter 必須 (type, date, project, tags, status)、`[[wikilink]]` でクロスリファレンス、`YYYY-MM-DD-kebab-case-title.md` 命名規則。詳細はスキル参照。
 
 ## Available Skills (on-demand)
 以下のスキルは必要時に呼び出して使用する（常時ロードしない）:

@@ -31,3 +31,6 @@ settings.local.json
 history.jsonl
 vercel-plugin-device-id
 vercel-plugin-telemetry-preference
+history.jsonl
+backups/
+teams/
