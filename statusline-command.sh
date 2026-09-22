@@ -9,7 +9,8 @@ MODEL=$(echo "$input" | jq -r '.model.display_name // "Unknown"' 2>/dev/null)
 DIR=$(echo "$input" | jq -r '.cwd // .workspace.current_dir // "."' 2>/dev/null)
 
 # Context window usage
-CTX=$(echo "$input" | jq -r '.context_window.used_percentage // 0' 2>/dev/null)
+# used_percentage は小数で来ることがある（例: 12.5）。bash の (( )) は整数専用なので必ず切り捨てる
+CTX=$(echo "$input" | jq -r '.context_window.used_percentage // 0 | floor' 2>/dev/null)
 [[ "$CTX" == "null" || -z "$CTX" ]] && CTX=0
 
 # Lines changed from cost section
@@ -60,8 +61,9 @@ pb() {
 }
 
 # ── Rate Limits (from stdin JSON, already provided) ──
-fp=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // 0' 2>/dev/null)
-sp=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // 0' 2>/dev/null)
+# used_percentage は小数で来ることがある。整数演算 (cc/pb) のため floor で切り捨てる
+fp=$(echo "$input" | jq -r '.rate_limits.five_hour.used_percentage // 0 | floor' 2>/dev/null)
+sp=$(echo "$input" | jq -r '.rate_limits.seven_day.used_percentage // 0 | floor' 2>/dev/null)
 [[ "$fp" == "null" || -z "$fp" ]] && fp=0
 [[ "$sp" == "null" || -z "$sp" ]] && sp=0
 

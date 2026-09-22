@@ -1,36 +1,41 @@
-ide/
-projects/
-shell-snapshots/
-statsig/
-todos/
+# ~/.claude はツールが実行時データ（履歴・キャッシュ・セッション・鍵）を次々に増やすため、
+# denylist では追いつかない。allowlist 方式で「手で管理する設定」だけを追跡する。
+/*
 
-__store.dbbackups/*.tar.gz
+# --- 追跡する設定 ---
+!/.gitignore
+!/*.md
+!/settings.json
+!/*.sh
+!/runcat-statusline.py
+!/.superclaude-metadata.json
+!/agents/
+!/agents-disabled/
+!/commands/
+!/commands-disabled/
+!/disabled-skills/
+!/docs/
+!/hooks/
+!/rules/
+!/skills/
 
-debug/
-file-history/
-logs/
+# plugins は宣言ファイルのみ（cache/data/marketplaces は再取得可能な実行時データ）
+!/plugins/
+/plugins/*
+!/plugins/config.json
+!/plugins/installed_plugins.json
+!/plugins/known_marketplaces.json
 
-# Cache & temporary
-cache/
-image-cache/
-paste-cache/
-plugins/cache/
-plugins/blocklist.json
-plugins/install-counts-cache.json
-plugins/marketplaces/
-session-env/
-sessions/
-stats-cache.json
-tasks/
-telemetry/
-plans/
-mcp-needs-auth-cache.json
+# --- skills 配下の除外 ---
+# synced はクラウド同期で自動生成される
+/skills/synced/
+# ~/.agents/skills への symlink（リンク先はこの repo 外なので他マシンでは壊れる）
+/skills/agent-browser
+/skills/natural-japanese
+/skills/orca-cli
+/skills/orchestration
 
-# Local/sensitive
-settings.local.json
-history.jsonl
-vercel-plugin-device-id
-vercel-plugin-telemetry-preference
-history.jsonl
-backups/
-teams/
+# バックアップ類
+*.bak
+*.bak-*
+*.bak.*
