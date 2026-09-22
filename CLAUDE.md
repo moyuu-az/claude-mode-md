@@ -1,61 +1,74 @@
 # Global Instructions
 
-## Language
-日本語で応答する。技術用語は英語のまま使用。
+## 設計方針
 
-## Preferred Tech Stack
-- **Frontend**: React + TypeScript + Next.js (App Router) + Tailwind CSS
-- **Backend**: Node.js + TypeScript + Express (or Next.js API Routes)
-- **DB**: PostgreSQL + Prisma/Drizzle, Redis (cache)
-- **Infra**: Docker, GitHub Actions, pino (logging)
+**実装の量と形は ponytail（SessionStart hook）に従う。** YAGNI・最小 diff・既存コード/stdlib/ネイティブ機能の再利用が優先。
+この節の項目と衝突したら ponytail が勝つ（例外は下記のテスト方針だけ）。
 
-プロジェクトの既存スタックを常に優先すること。上記はデフォルト参照用。
+そのうえで、成果物はほぼすべて**エンタープライズの実務で使われる**前提で判断する。
 
-## Workflow
-1. 既存コードを読んでから修正する（推測で変更しない）
-2. 3ステップ以上のタスクは TaskCreate で TODO を作成してから実装
-3. 並列実行可能な操作は並列で（Read, Glob 等のバッチ呼び出し）
-4. 実装完了後にテスト/lint を実行して検証
-5. feature ブランチで作業、main には直接コミットしない
+- **堅牢性は削らない**（ponytail の「When NOT to be lazy」に該当する）:
+  信頼境界での入力バリデーション、データ損失を防ぐエラーハンドリング、トランザクション境界と冪等性、
+  同時実行（楽観ロック等）、権限チェック、監査・運用に必要なログ、後方互換（API/スキーマ契約）
+- **拡張性は「変更が確実に来る境界」でだけ確保する**: 外部 I/O・永続化・外部サービス・ドメイン境界。
+  そこでは GoF 等のパターンを使ってよい。推測の拡張ポイント（実装 1 つの interface、使われない設定値）は作らない
+- SSOT を守る。同じ知識を 2 箇所に書かない
+- コメントは What ではなく **Why / 仕様上の制約 / 知らないと事故る前提** を書く
+- **テストは ponytail の最小主義の例外。** プロダクトコードは最小に、テストは厚くする
+  （破壊的変更を恐れない代わりにテストで守る）:
+  - 堅牢性項目に当たる経路は正常系・異常系・境界値をテストで証明する
+  - バグ修正には必ず再現テスト（回帰テスト）を先に書く
+  - プロジェクトの既存テスト基盤（vitest / storybook / playwright 等）に乗せる。新しいテスト基盤は導入しない
+  - e2e は playwright が既にあるプロジェクトで、主要なユーザーフローに触れたときに書く
+  - テストを skip / 無効化してビルドを通さない
 
-## Code Quality
-- `any` 禁止、明示的な型定義
-- 入力バリデーション必須（Zod）
-- エラーハンドリングを省略しない
-- 不要な抽象化・過剰設計をしない（YAGNI）
-- 要求されたスコープだけ実装する（勝手に機能追加しない）
-- TODO / stub / mock 実装を残さない（始めたら完了させる）
+## 協力者としての振る舞い
+
+- ユーザーの誤解や隣接バグに気づいたら指摘する
+- **隣接する既存の欠陥は指摘し、別 PR にする。** 今の差分の中で直さない（入口の外を差分の中で塞ぐと別の壊れ方を生む）
+- 完了報告前に実際に動作を検証する。できなければその旨を明示
+- 詳細は skill 参照: `ant-collaborator-assertiveness` / `ant-verify-before-completion` / `ant-communication-style`
+  （応答の長さは outputStyle で管理する）
 
 ## Git
-- `git status` と `git branch` をセッション開始時に確認
-- feature ブランチで作業
-- コミット前に `git diff` で変更確認
-- Conventional Commits: `feat:`, `fix:`, `docs:`, `refactor:`
 
-## Debugging
-1. エラーメッセージとスタックトレースを最初に読む
-2. データフローを追跡して根本原因を特定
-3. 症状ではなく原因を修正する
-4. テストをスキップ/無効化してビルドを通さない
+- セッション開始時に `git status` と `git branch` を確認。feature ブランチで作業
+- コミット前に `git diff` で変更確認。Conventional Commits（`feat:` / `fix:` / `docs:` / `refactor:`）
+- **PR 本文は日本語**（タイトル prefix・技術用語・コード・パス・コマンドは英語のまま）
 
-## Obsidian ドキュメント化
+## Worktree（指示されたときだけ使う）
 
-**Vault**: `Code-Notizbuch` | **Skill**: `~/.claude/skills/obsidian-doc/SKILL.md`
+- 作成は `EnterWorktree`（`git worktree add` を Bash で叩かない。cwd と status line が切り替わらないため）。name は task が分かる kebab-case
+- base は `origin/<default-branch>`（`worktree.baseRef` = fresh）。未 push のローカルコミットが必要なら worktree 内で rebase
+- `ExitWorktree` はユーザーに言われたときだけ。`remove` が未コミット変更で拒否されたら内容を報告してから判断を仰ぐ
+- 整理を頼まれたら `worktree-cleanup` skill
 
-作業完了時に Obsidian vault にドキュメントを書き出すこと。
+## レビュー
 
-**階層構造**: `{Type}/{project}/{YYYY-MM}/YYYY-MM-DD-title.md`
-- 例: `Sessions/claude-code-config/2026-03/2026-03-28-skill-creation.md`
+**レビュー / 第二意見 / GO・NO-GO は必ず SubAgent に依頼する。本体が自分でレビューしない。**
+差分の大きさは例外理由にならない（自分で書いたコードだから見えない）。実装中の `git diff` 確認・テスト・lint は実装の一部なのでよい。
 
-**プロジェクト MOC**: 新規プロジェクト初回時に `Index/Projects/{project}.md` を作成。
+| 状況 | 依頼先 |
+| --- | --- |
+| 通常 | `code-reviewer`（Opus 5） |
+| 2〜3 巡しても同じ形の指摘が続く / 同時実行・データ整合 / 実行ごとに違う失敗 / 設計自体が疑わしい | `deep-reviewer`（Fable 5）。いきなりここへ行かない |
+| Codex | **ユーザーが明示したときだけ**。手順は `~/.claude/docs/codex-fallback.md` |
 
-制約: YAML frontmatter 必須 (type, date, project, tags, status)、`[[wikilink]]` でクロスリファレンス、`YYYY-MM-DD-kebab-case-title.md` 命名規則。詳細はスキル参照。
+レビュアは既定で「修正 → テスト → `fix(review):` コミット」まで行う（エージェント定義が SSOT）。
 
-## Available Skills (on-demand)
-以下のスキルは必要時に呼び出して使用する（常時ロードしない）:
-- `/sc:brainstorm` - 要件発見・ブレインストーミング
-- `/sc:research` - 深掘り調査
-- `/sc:business-panel` - ビジネス分析パネル
-- `/sc:analyze` - コード分析
-- `/sc:test` - テスト実行
-- `/sc:build` - ビルド実行
+**依頼前**
+- 本体の変更をコミットしておく。依頼中は同じファイルを触らない
+- mutation testing などファイルを書き換えて戻す作業は `isolation: "worktree"`（修正コミットは worktree のブランチに載る点に注意）
+- prompt は cold context 前提: 対象の絶対パス / テストコマンドと現在の件数 / 守る不変条件 / 「push しない」/ 報告形式
+- 巡回数がコストを支配する。逐次ではなく軸（同時実行 / データ損失 / API 契約 など）で並列に 1 巡 → まとめて直して確認 1 巡
+- 同じ形の指摘が 3 巡以上続いたら症状ではなく「なぜ同じ形が出続けるか」を構造から直させる
+
+**戻ってきたら**（完了判断は本体の仕事）
+- 指摘の妥当性と、`git show <sha>` での修正差分の**両方**を読む。「FIXED と言っているから OK」は確認ではない
+- テストが実行ごとに違う失敗をしたら、コードの競合より先に `git status` で自分の変更が残っているかを疑う
+
+経緯と実測: `~/.claude/docs/review-lessons.md`
+
+# graphify
+- **graphify** (`~/.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
+When the user types `/graphify`, use the installed graphify skill or instructions before doing anything else.
