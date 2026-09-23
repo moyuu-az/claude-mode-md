@@ -5,7 +5,6 @@
 # --- 追跡する設定 ---
 !/.gitignore
 !/*.md
-!/settings.json
 !/*.sh
 !/runcat-statusline.py
 !/.superclaude-metadata.json
@@ -19,12 +18,8 @@
 !/rules/
 !/skills/
 
-# plugins は宣言ファイルのみ（cache/data/marketplaces は再取得可能な実行時データ）
-!/plugins/
-/plugins/*
-!/plugins/config.json
-!/plugins/installed_plugins.json
-!/plugins/known_marketplaces.json
+# settings.json と plugins/ は追跡しない。
+# 業務案件のパス・インフラ名が permissions や plugin の projectPath に蓄積され、公開 repo に載せられないため。
 
 # --- skills 配下の除外 ---
 # synced はクラウド同期で自動生成される
