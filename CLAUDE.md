@@ -68,7 +68,3 @@
 - テストが実行ごとに違う失敗をしたら、コードの競合より先に `git status` で自分の変更が残っているかを疑う
 
 経緯と実測: `~/.claude/docs/review-lessons.md`
-
-# graphify
-- **graphify** (`~/.claude/skills/graphify/SKILL.md`) - any input to knowledge graph. Trigger: `/graphify`
-When the user types `/graphify`, use the installed graphify skill or instructions before doing anything else.
