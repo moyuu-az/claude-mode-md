@@ -1,6 +1,6 @@
 ---
 name: remote-dispatch
-description: Use when the user wants this session to act as a dispatcher — handing tasks to other Claude Desktop sessions (especially sessions running on another Mac over SSH or via Remote Control), running them in parallel, and collecting the results. Triggers include「Pro で動かして」「別のマシン（セッション）に振って」「並行して進めて」「司令塔として」「リモートのセッションに指示して」.
+description: Use when the user wants this session to act as a dispatcher — handing tasks to other Claude Desktop sessions in this app (especially SSH sessions running on another Mac), running them in parallel, and collecting the results. Triggers include「Pro で動かして」「別のマシン（セッション）に振って」「並行して進めて」「司令塔として」「リモートのセッションに指示して」.
 ---
 
 # 別セッションへの作業の振り分け（司令塔）
@@ -10,16 +10,14 @@ description: Use when the user wants this session to act as a dispatcher — han
 
 ## 前提（実測済み）
 - 司令塔は新しいセッションを作れない。作業用のセッションはユーザーにアプリで作ってもらう（環境: SSH > 接続先、worktree を ON、権限モードは auto を推奨）
-- 送り先として使えるもの:
-  - このアプリのセッション（`list_sessions` に出る。SSH 先で動くものは `get_session` の `isRemote: true`）
-  - 別マシンのアプリのセッションで Remote Control が ON のもの（`ListAgents` に出る）
+- 送り先は、このアプリのセッション（`list_sessions` に出るもの。SSH 先で動くものは `get_session` の `isRemote: true`）に限る。`ListAgents` にだけ出る Remote Control のセッションは、監視と回収の手順を確かめていないので使わない
 - 作業中のセッションに送ると queued になり、今の作業が終わってから順に実行される
 - 受け取った側は「同僚からの依頼」として、自分の権限の範囲で動く。権限の昇格はできない。許可待ちになると止まり、司令塔からは許可できない
 - **受け取った側が SendMessage で送り返しても、司令塔には届かない（SSH 先から）。** 結果は会話記録から読む
-- `ssh <host> claude -p` は、そのままでは「Not logged in」で動かない（SSH 経由ではキーチェーンを読めない）。使うなら、ホスト側でユーザーが `claude setup-token` を実行し、`CLAUDE_CODE_OAUTH_TOKEN` を設定しておく必要がある
+- `ssh <host> claude -p` で直接動かす方法は使わない（SSH 経由ではキーチェーンを読めず「Not logged in」になる）
 
 ## 手順
-1. **送り先を決める。** `list_sessions` と `get_session`（必要なら `ListAgents`）で候補を出し、cwd・branch・isRunning・isRemote をユーザーに見せる。
+1. **送り先を決める。** `list_sessions` と `get_session` で候補を出し、cwd・branch・isRunning・isRemote をユーザーに見せる。
    - 他の作業をしている（isRunning）セッションや、ユーザーが割り当てていないセッションには送らない
    - 1 タスク = 1 セッション = 1 worktree。同じ worktree に別のタスクを重ねない
    - 足りなければ、必要な数と場所（repo・worktree）を伝えてユーザーに作ってもらう
@@ -31,8 +29,8 @@ description: Use when the user wants this session to act as a dispatcher — han
    目的: <何を達成するか>
    範囲: <触ってよい場所・ブランチ。push や PR を作るかどうか>
    完了条件: <テストが通る、など確かめられる形で>
-   返信の最終行を `[<ID>] DONE: <1 行の要約>` にして終えてください。
-   続けられないときは `[<ID>] BLOCKED: <理由>` にしてください。
+   返信の最後の行には、太字や引用などの装飾を付けず、行の先頭から `[<ID>] DONE: <1 行の要約>` とだけ書いて終えてください。
+   続けられないときは、同じ形で `[<ID>] BLOCKED: <理由>` と書いてください。
    報告は SendMessage では送らず、この会話の返信として書いてください。
    ```
 

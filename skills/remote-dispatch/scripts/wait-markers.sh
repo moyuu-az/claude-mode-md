@@ -3,7 +3,7 @@
 # すべて出たら終わる。司令塔はこれをバックグラウンドで動かし、終了通知を受けてから list_events で中身を読む。
 #
 # 使い方: wait-markers.sh <host|local> <セッションの cwd> <timeout 秒> <ID>...
-#   例: wait-markers.sh pro /Users/me/repo/.claude/worktrees/foo 1800 T1005-1 T1005-2
+#   例: wait-markers.sh pro /Users/me/repo/.claude/worktrees/foo 1800 T1005-1
 # 終了コード: 0 = 全 ID 完了 / 2 = タイムアウト（未完了の ID を表示）/ その他 = 接続などのエラー
 #
 # 知らないと事故る前提:
