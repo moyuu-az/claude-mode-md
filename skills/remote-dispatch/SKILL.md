@@ -23,7 +23,7 @@ description: Use when the user wants this session to act as a dispatcher — han
    - 他の作業をしている（isRunning）セッションや、ユーザーが割り当てていないセッションには送らない
    - 1 タスク = 1 セッション = 1 worktree。同じ worktree に別のタスクを重ねない
    - 足りなければ、必要な数と場所（repo・worktree）を伝えてユーザーに作ってもらう
-2. **ID を振る。** 再実行で古い印を拾わないよう、日付を含む一意の ID にする（例: `T1005-1`）
+2. **ID を振る。** 日付を含む一意の ID にする（例: `T1005-1`）。やり直し（BLOCKED 後の再依頼を含む）も新しい ID にする。同じ ID だと前回の印で監視がすぐ終わる
 3. **指示を送る。** `send_message`（`session_id` は `local_...`）で、次の雛形を使う
 
    ```
@@ -44,6 +44,7 @@ description: Use when the user wants this session to act as a dispatcher — han
 
    - host はセッションが動くマシン（SSH の接続先。このマシンなら `local`）。cwd は `get_session` の値
    - 送り先ごとに 1 本ずつ動かしてよい（cwd が違えば監視先も違う）
+   - Bash の `timeout`（ミリ秒。既定 30 分、上限 2 時間）はスクリプトの timeout より長くする。Bash の上限で止まったときや、ssh が切れた（終了コード 255）ときは、同じコマンドで動かし直す（止まっている間に出た印も拾う）
 5. **結果を集めて確かめる。** `list_events`（`limit` は小さく）で各セッションの最後の返信を読む。
    - 「DONE」の内容をそのまま信じず、必要に応じて `ssh <host> git -C <cwd> log/diff` などで実物を見てから報告する
    - BLOCKED・タイムアウトのものは、理由と、ユーザーに判断してほしいこと（許可・方針など）を分けて伝える
