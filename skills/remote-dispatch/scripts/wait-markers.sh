@@ -4,7 +4,7 @@
 #
 # 使い方: wait-markers.sh <host|local> <セッションの cwd> <timeout 秒> <ID>...
 #   例: wait-markers.sh pro /Users/me/repo/.claude/worktrees/foo 1800 T1005-1
-# 終了コード: 0 = 全 ID 完了 / 2 = タイムアウト（未完了の ID を表示）/ その他 = 接続などのエラー
+# 終了コード: 0 = 全 ID が DONE / 3 = BLOCKED を含む（子が返答を待っている）/ 2 = タイムアウト（未完了の ID を表示）/ その他 = 接続などのエラー
 #
 # 知らないと事故る前提:
 # - SSH 先のセッションから SendMessage で送り返しても司令塔に届かない（実測）。だから会話記録を直接見る
@@ -44,15 +44,28 @@ while :; do
   dir=$root/$key
   [[ -d $dir ]] || dir=$root
   # 監視を始める前に終わっていた作業も拾えるよう、窓は「経過時間 + 30 分」
-  pending=()
+  pending=(); blocked=()
   for id in "$@"; do
-    # JSON 文字列の中で、先頭か改行（\n）の直後に印がある text ブロック
-    pat='"type":"text","text":"(([^"\\]|\\.)*\\n)?\['"$id"'\] (DONE|BLOCKED): [^<]'
-    hit=$(find "$dir" -name '*.jsonl' -not -path '*/subagents/*' -mmin -$(( elapsed / 60 + 30 )) -print0 2>/dev/null |
-      xargs -0 grep -hE "$pat" 2>/dev/null | grep -cm1 '"role":"assistant"' || true)
-    [[ $hit == 1 ]] || pending+=("$id")
+    found=
+    for kind in DONE BLOCKED; do
+      # JSON 文字列の中で、先頭か改行（\n）の直後に印がある text ブロック
+      pat='"type":"text","text":"(([^"\\]|\\.)*\\n)?\['"$id"'\] '"$kind"': [^<]'
+      hit=$(find "$dir" -name '*.jsonl' -not -path '*/subagents/*' -mmin -$(( elapsed / 60 + 30 )) -print0 2>/dev/null |
+        xargs -0 grep -hE "$pat" 2>/dev/null | grep -cm1 '"role":"assistant"' || true)
+      if [[ $hit == 1 ]]; then found=$kind; break; fi
+    done
+    case $found in
+      DONE) ;;
+      BLOCKED) blocked+=("$id") ;;
+      *) pending+=("$id") ;;
+    esac
   done
   if (( ${#pending[@]} == 0 )); then
+    # BLOCKED は子からの質問。DONE と同じ 0 で返すと、返答し忘れても司令塔が気づけない
+    if (( ${#blocked[@]} > 0 )); then
+      echo "BLOCKED: ${blocked[*]} （${elapsed} 秒）。子は返答を待っている。結論を新しい ID で子に送り、監視を張り直すまで終わっていない"
+      exit 3
+    fi
     echo "完了: $* （${elapsed} 秒）"
     exit 0
   fi

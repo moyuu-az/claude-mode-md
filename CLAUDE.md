@@ -45,6 +45,10 @@
 - `ExitWorktree` はユーザーに言われたときだけ。`remove` が未コミット変更で拒否されたら内容を報告してから判断を仰ぐ
 - 整理を頼まれたら `worktree-cleanup` skill
 
+## 別セッションの管理
+
+子セッションを立てて作業を振るとき（SSH 先を含む）は、`remote-dispatch` skill を読んでから始める。BLOCKED への返答と、idle の子の点検もこの skill に従う
+
 ## レビュー
 
 **レビュー / 第二意見 / GO・NO-GO は必ず SubAgent に依頼する。本体が自分でレビューしない。**
