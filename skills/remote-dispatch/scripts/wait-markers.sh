@@ -70,7 +70,7 @@ while :; do
     exit 0
   fi
   if (( elapsed >= timeout )); then
-    echo "タイムアウト（${elapsed} 秒）。未完了: ${pending[*]}"
+    echo "タイムアウト（${elapsed} 秒）。未完了: ${pending[*]}${blocked[*]:+ / BLOCKED: ${blocked[*]}}"
     exit 2
   fi
   sleep 10
