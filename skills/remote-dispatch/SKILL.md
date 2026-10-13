@@ -21,7 +21,7 @@ description: Use when the user wants this session to act as a dispatcher — han
 ## 手順
 1. **立てる場所を決める。** `list_start_targets` で SSH の接続名（`host`）と、接続先の最近のフォルダを確かめる。接続名は推測しない。
    - 1 タスク = 1 セッション = 1 worktree。同じ worktree に別のタスクを重ねない
-   - repo の作業ツリーは、別の作業のブランチに切り替わっていることがある。立てる前に `ssh <ssh の Host> git -C <repo> branch --show-current`（Host は手順 4 を参照）で確かめ、`source_branch` に `main` などの起点を明示する
+   - repo の作業ツリーは、別の作業のブランチに切り替わっていることがある。立てる前に `ssh <ssh の Host> git -C <repo> branch --show-current`（Host は手順 4 を参照。このマシンなら `ssh <ssh の Host>` を付けない）で確かめ、`source_branch` に `main` などの起点を明示する
 2. **ID を振る。** 日付を含む一意の ID にする（例: `T1005-1`）。追加の指示・やり直し・BLOCKED への返答も、毎回新しい ID にする。同じ ID だと前回の印で監視がすぐ終わる。送る文の先頭には `[<新しい ID>]` を付け、雛形の最後の 3 行（印の書き方と、SendMessage で送らないこと）も新しい ID で付け直す。付けないと、子は前の ID で印を書き、新しい ID の監視はタイムアウトまで終わらない
 3. **立てて指示する。** `start_session` を次の値で呼ぶ。
    - `initiation: "user_asked"`、`context: "fresh"`、`target: "ssh"`、`host`（手順 1 の接続名）、`cwd`（接続先の repo の絶対パス）、`use_worktree: true`、`source_branch`、`branch_name`
@@ -49,9 +49,9 @@ description: Use when the user wants this session to act as a dispatcher — han
    - host は ssh で使う名前（`~/.ssh/config` の Host。`list_start_targets` の接続名とは別のことがある）。このマシンなら `local`
    - 子ごとに 1 本ずつ動かす
    - 終了コード: 0 = すべて DONE、3 = BLOCKED を含む（手順 6 へ）、2 = タイムアウト、それ以外 = 接続などのエラー
-   - タイムアウトしたら、`list_events` と `get_session` で子が許可待ちか、まだ作業中か、印を書かずに止まったかを確かめる。許可待ちは司令塔から許可できないので、どのセッションで何の許可を待っているかをユーザーに伝える。まだ作業中なら、同じコマンドで監視を張り直す
+   - タイムアウトしたら、`list_events` と `get_session` で子が許可待ちか、まだ作業中か、印を書かずに止まったかを確かめる。許可待ちは司令塔から許可できないので、どのセッションで何の許可を待っているかをユーザーに伝える。まだ作業中なら、同じコマンドで監視を張り直す。印を書かずに止まっていれば、新しい ID で続きを指示し、その ID で監視を張り直す
    - Bash の `timeout`（ミリ秒）はスクリプトの timeout より長くする。Bash の上限で止まったときは、同じコマンドで動かし直す
-   - 終了コード 255（ssh が切れた）のときは、まず `ssh -o ConnectTimeout=10 <Host> true` で繋がるか確かめる。繋がれば同じコマンドで動かし直す。繋がらなければ、SSH 先のマシンを起こしてもらうようユーザーに頼む。復帰したら `list_events` で子が途中で止まっていないかを確かめ、止まっていれば新しい ID で「中断したところから続けて」と送る
+   - 終了コード 255（ssh が切れた）のときは、まず `ssh -o BatchMode=yes -o ConnectTimeout=10 <Host> true` で繋がるか確かめる。繋がらなければ、SSH 先のマシンを起こしてもらうようユーザーに頼む。繋がったら（すぐ繋がった場合も、復帰を待った場合も）、動かし直す前に `list_events` で子が途中で止まっていないかを確かめる。止まっていなければ同じコマンドで動かし直す。止まっていれば新しい ID で「中断したところから続けて」と送り、その ID で監視を張り直す
 5. **結果を読んで確かめる。** `list_events`（`limit` は小さく）で子の最後の返信を読む。
    - 「DONE」の内容をそのまま信じず、PR・`git log`・CI などの実物を見てから報告する
 6. **BLOCKED を閉じる。** BLOCKED は子からの質問なので、返答するまで終わっていない。
