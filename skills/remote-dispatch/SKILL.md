@@ -15,6 +15,7 @@ description: Use when the user wants this session to act as a dispatcher — han
 - 子への追加の指示は `SendMessage`（`to` は子の `local_...` ID）で送る。子が作業中なら queued になり、今の作業が終わってから実行される
 - 子は「同僚からの依頼」として、自分の権限の範囲で動く。許可待ちになると止まり、司令塔からは許可できない
 - **子が SendMessage で送り返しても、司令塔には届かない（SSH 先から）。** 結果は子の返信を `list_events` で読む
+- SSH 先がスリープしたり回線が切れたりすると、子はツール呼び出しの途中で止まり、印を書かないまま idle になる。監視スクリプトは終了コード 255 で終わる（2026-10-12、2 つの子が同じ時刻に止まり、ssh が port 22 でタイムアウトした）
 - `ssh <host> claude -p` で直接動かす方法は使わない（SSH 経由ではキーチェーンを読めず「Not logged in」になる）
 
 ## 手順
@@ -24,6 +25,7 @@ description: Use when the user wants this session to act as a dispatcher — han
 2. **ID を振る。** 日付を含む一意の ID にする（例: `T1005-1`）。追加の指示・やり直し・BLOCKED への返答も、毎回新しい ID にする。同じ ID だと前回の印で監視がすぐ終わる。送る文の先頭には `[<新しい ID>]` を付け、雛形の最後の 3 行（印の書き方と、SendMessage で送らないこと）も新しい ID で付け直す。付けないと、子は前の ID で印を書き、新しい ID の監視はタイムアウトまで終わらない
 3. **立てて指示する。** `start_session` を次の値で呼ぶ。
    - `initiation: "user_asked"`、`context: "fresh"`、`target: "ssh"`、`host`（手順 1 の接続名）、`cwd`（接続先の repo の絶対パス）、`use_worktree: true`、`source_branch`、`branch_name`
+   - このマシンに立てるときは `target` と `host` を省き、`cwd` にこのマシンの repo を渡す
    - `background` には全体の目的・他の子の担当・共有する制約（CPU や全体テストの順番など）を書く
    - `prompt` は次の雛形にする
 
@@ -48,7 +50,8 @@ description: Use when the user wants this session to act as a dispatcher — han
    - 子ごとに 1 本ずつ動かす
    - 終了コード: 0 = すべて DONE、3 = BLOCKED を含む（手順 6 へ）、2 = タイムアウト、それ以外 = 接続などのエラー
    - タイムアウトしたら、`list_events` と `get_session` で子が許可待ちか、まだ作業中か、印を書かずに止まったかを確かめる。許可待ちは司令塔から許可できないので、どのセッションで何の許可を待っているかをユーザーに伝える。まだ作業中なら、同じコマンドで監視を張り直す
-   - Bash の `timeout`（ミリ秒）はスクリプトの timeout より長くする。止まったときや ssh が切れたとき（終了コード 255）は、同じコマンドで動かし直す
+   - Bash の `timeout`（ミリ秒）はスクリプトの timeout より長くする。Bash の上限で止まったときは、同じコマンドで動かし直す
+   - 終了コード 255（ssh が切れた）のときは、まず `ssh -o ConnectTimeout=10 <Host> true` で繋がるか確かめる。繋がれば同じコマンドで動かし直す。繋がらなければ、SSH 先のマシンを起こしてもらうようユーザーに頼む。復帰したら `list_events` で子が途中で止まっていないかを確かめ、止まっていれば新しい ID で「中断したところから続けて」と送る
 5. **結果を読んで確かめる。** `list_events`（`limit` は小さく）で子の最後の返信を読む。
    - 「DONE」の内容をそのまま信じず、PR・`git log`・CI などの実物を見てから報告する
 6. **BLOCKED を閉じる。** BLOCKED は子からの質問なので、返答するまで終わっていない。
