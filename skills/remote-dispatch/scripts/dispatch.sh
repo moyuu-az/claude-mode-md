@@ -44,14 +44,19 @@ if [[ ${1:-} == --here ]]; then
   # セッションの記録ディレクトリは最初の書き込みでできるので、毎回確かめる
   dir=$root/$key; own=1
   [[ -d $dir ]] || { dir=$root; own=; }
-  # 依頼の時刻までさかのぼる。10 分の余裕は、2 台の時計のずれと、add より先に子が書き始める分
-  mmin=$(( ($(date +%s) - since) / 60 + 10 ))
+  # 子の cwd の記録は、古さで絞らない。ID は一覧で一意で、add が子の最後の書き込みより遅れても見落とさないため。
+  # 全プロジェクトを探すときだけ、依頼の時刻までに絞る（10 分の余裕は 2 台の時計のずれの分。時計が逆転しても 1 分は見る）
+  window=()
+  if [[ -z $own ]]; then
+    mmin=$(( ($(date +%s) - since) / 60 + 10 )); (( mmin > 0 )) || mmin=1
+    window=(-mmin -"$mmin")
+  fi
   for id in "$@"; do
     state=PENDING
     for kind in DONE BLOCKED; do
       # JSON 文字列の中で、先頭か改行（\n）の直後に印がある text ブロック
       pat='"type":"text","text":"(([^"\\]|\\.)*\\n)?\['"$id"'\] '"$kind"': [^<]'
-      hit=$(find "$dir" -name '*.jsonl' -not -path '*/subagents/*' -mmin -"$mmin" -print0 2>/dev/null |
+      hit=$(find "$dir" -name '*.jsonl' -not -path '*/subagents/*' ${window[@]+"${window[@]}"} -print0 2>/dev/null |
         xargs -0 grep -hE "$pat" 2>/dev/null | grep -cm1 '"role":"assistant"' || true)
       if [[ $hit == 1 ]]; then state=$kind; break; fi
     done
@@ -166,12 +171,12 @@ wait)
     (( t < since )) && since=$t
     (( t > latest )) && latest=$t
   done
-  start=$(date +%s); warned=
+  start=$(date +%s); fails=0
   while :; do
     rc=0; out=$(check "$host" "$cwd" "$since" "$stall" "$@" 2>&1) || rc=$?
     elapsed=$(( $(date +%s) - start ))
     if (( rc == 0 )); then
-      warned=; pending=; blocked=
+      fails=0; pending=; blocked=
       for id in "$@"; do
         case $(awk -v id="$id" '$1=="id" && $2==id {print $3}' <<< "$out") in
           DONE) ;;
@@ -195,8 +200,8 @@ wait)
       fi
     elif (( rc == 255 )); then
       # 司令塔がスリープしていたか、回線が切れている。印は接続先に残るので、つながるまで待てば取りこぼさない
-      [[ -n $warned ]] || echo "$host に接続できません。つながるまで試し続けます"
-      warned=1
+      (( fails > 0 )) || echo "$host に接続できません。つながるまで試し続けます"
+      fails=$(( fails + 1 ))
     else
       echo "$out" >&2
       exit "$rc"
@@ -204,6 +209,8 @@ wait)
     # 時間切れの判定は、調べたあとにする。スリープ中も時計は進むので、先に判定すると復帰した瞬間に何も見ずに終わる
     if (( elapsed >= timeout )); then
       if (( rc == 255 )); then
+        # スリープから戻った直後は回線がまだ戻っていない。続けて 4 回（約 1 分）失敗するまでは、接続先を見ずに終わらない
+        if (( fails < 4 )); then sleep 15; continue; fi
         echo "$host に接続できないまま時間切れ（${elapsed} 秒）。\`ssh -o BatchMode=yes -o ConnectTimeout=10 $host true\` で確かめる"
         exit 255
       fi

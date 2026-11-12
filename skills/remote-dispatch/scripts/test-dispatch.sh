@@ -85,7 +85,16 @@ expect 2 wait 0 X-1 X-3
 expect 2 wait 0 X-4
 expect 2 wait 0 X-5
 expect 0 wait 0 X-6
-expect 2 wait 0 X-7
+# 子の cwd の記録は、古くても数える（回帰: add が子の最後の書き込みより 10 分以上遅れると、DONE を見落としていた。ID は一覧で一意）
+expect 0 wait 0 X-7
+# 子の cwd の記録がまだ無く、全プロジェクトを探すときだけ、依頼の時刻より前の記録を除く
+printf '{"message":{"role":"assistant","content":[{"type":"text","text":"[F-1] DONE: old, other project"}]}}\n' >> "$proj/-w/old.jsonl"
+ago "$proj/-w/old.jsonl" 2
+line -w assistant '[F-2] DONE: fresh'
+expect 0 add F-1 local /nodir local_f
+expect 0 add F-2 local /nodir local_f
+expect 2 wait 0 F-1
+expect 0 wait 0 F-2
 expect 2 wait 0 X-2 X-3
 has '未完了: X-3'
 has 'BLOCKED: X-2'
@@ -133,8 +142,10 @@ expect 0 wait 0 R-1
 echo 2 > "$home/ssh-fail"
 expect 0 wait 600 R-1
 has '接続できません'
-# 復帰直後に時間切れになっていても、判定を 1 回してから終わる（スリープ中も時計は進む）
-echo 1 > "$home/ssh-fail"
+# 復帰直後に時間切れになっていても、接続先を 1 回は調べてから終わる（スリープ中も時計は進み、復帰の直後は回線がまだ戻っていない）
+echo 3 > "$home/ssh-fail"
+expect 0 wait 0 R-1
+echo 99 > "$home/ssh-fail"
 expect 255 wait 0 R-1
 has 'ssh -o BatchMode=yes'
 echo 0 > "$home/ssh-fail"
@@ -168,11 +179,11 @@ expect 65 add X-1 local /w local_a
 expect 0 status
 lacks '^X-1	'
 has 'X-2.*BLOCKED'
-for id in X-2 X-3 X-4 X-5 X-6 X-7 M-1 M-2 M-3 M-4 M-5 S-1 ST-1 ST-2 ST-3 R-1 Q-1; do run close $id done > /dev/null; done
+for id in X-2 X-3 X-4 X-5 X-6 X-7 F-1 F-2 M-1 M-2 M-3 M-4 M-5 S-1 ST-1 ST-2 ST-3 R-1 Q-1; do run close $id done > /dev/null; done
 expect 0 status
 has '未完了の依頼はありません'
 # 依頼の一覧は追記だけ。close した依頼も行として残る
 n=$(grep -c . "$ledger")
-if [[ $n == 36 ]]; then echo "ok   ledger keeps all 36 events"; else echo "FAIL ledger has $n events, want 36"; fail=1; fi
+if [[ $n == 40 ]]; then echo "ok   ledger keeps all 40 events"; else echo "FAIL ledger has $n events, want 40"; fail=1; fi
 
 exit $fail

@@ -78,7 +78,7 @@ description: Use when the user wants this session to act as a dispatcher — han
    報告は SendMessage では送らず、この会話の返信として書いてください。
    ```
 
-   - 立てたらすぐ、`list_sessions {"linked": true}` で子の worktree の cwd と session id を取り、`dispatch.sh add` で記録する。`wait` より先に記録する。記録のない ID は `wait` が拒否する。`wait` と `status` は、`add` の 10 分前から後に書き込まれた会話記録しか見ないので、`add` が遅れると、その間に子が書いた印を見落とす
+   - 立てたらすぐ、`list_sessions {"linked": true}` で子の worktree の cwd と session id を取り、`dispatch.sh add` で記録する。`wait` より先に記録する。記録のない ID は `wait` が拒否する
    - 既にあるセッションに振るときは、`list_sessions` と `get_session` で cwd・branch・isRunning を確かめる。ユーザーが割り当てていないセッションや、他の作業中のセッションには送らない。`SendMessage` で送ったら、同じように `add` で記録する
 4. **完了を待つ。** `dispatch.sh wait <timeout 秒> <ID>...` をバックグラウンドの Bash で動かす。`list_events` を短い間隔で繰り返し呼ばない
    - 子ごとに 1 本ずつ動かす。別の子の ID をまとめると拒否される
@@ -105,7 +105,7 @@ description: Use when the user wants this session to act as a dispatcher — han
 | UNREACHABLE | 接続先につながらない。少し待って `status` をやり直す。続くなら、接続先のマシンと回線をユーザーに確かめてもらう |
 | ERROR(66) | 接続先に会話記録がない。`add` に渡した host を確かめる |
 
-依頼の一覧にあるのは `add` で記録した依頼だけである。`list_sessions {"linked": true}` も見て、依頼の一覧にない子（`add` の前に司令塔が止まった場合）が残っていないかを確かめる。残っていれば、`list_events` で最初の依頼の ID と子の最後の返信を読み、`add` で記録してから同じように扱う。子が `add` の 10 分以上前に書き込みを終えていると、`status` には印が出ず PENDING のままになる。そのときは `list_events` で読んだ印をもとに、手順 5 か手順 6 へ進む。
+依頼の一覧にあるのは `add` で記録した依頼だけである。`list_sessions {"linked": true}` も見て、依頼の一覧にない子（`add` の前に司令塔が止まった場合）が残っていないかを確かめる。残っていれば、`list_events` で最初の依頼の ID と子の最後の返信を読み、`add` で記録してから同じように扱う。
 
 ## 止まった子の扱い
 
