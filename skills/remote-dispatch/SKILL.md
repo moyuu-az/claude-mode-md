@@ -60,7 +60,7 @@ description: Use when the user wants this session to act as a dispatcher — han
    - 1 タスク = 1 セッション = 1 worktree。同じ worktree に別のタスクを重ねない
    - 接続先には、`ssh -o BatchMode=yes -o ConnectTimeout=10 <ssh の Host> true` でつながることを先に確かめる。BatchMode で通らない接続は、司令塔のマシンがスリープから戻るたびに、アプリが自動で再接続できない。鍵を SSH agent に入れるようユーザーに頼む
    - repo の作業ツリーは、別の作業のブランチに切り替わっていることがある。立てる前に `ssh <ssh の Host> git -C <repo> branch --show-current`（このマシンなら `ssh <ssh の Host>` を付けない）で確かめ、`source_branch` に `main` などの起点を明示する
-2. **ID を振る。** 日付を含む一意の ID にする（例: `T1005-1`）。追加の指示・やり直し・BLOCKED への返答も、毎回新しい ID にする。同じ ID は `add` が拒否する。送る文の先頭には `[<新しい ID>]` を付け、雛形の最後の 3 行（印の書き方と、SendMessage で送らないこと）も新しい ID で付け直す。付けないと、子は前の ID で印を書き、新しい ID の `wait` はタイムアウトまで終わらない
+2. **ID を振る。** 日付を含む一意の ID にする（例: `T1005-1`）。追加の指示・やり直し・BLOCKED への返答も、毎回新しい ID にする。同じ ID は `add` が拒否する。`add` が知らない過去の ID（依頼の一覧ができる前や、別のマシンから振ったもの）も、同じ cwd の会話記録に残っていれば印として数えるので、使わない。送る文の先頭には `[<新しい ID>]` を付け、雛形の最後の 3 行（印の書き方と、SendMessage で送らないこと）も新しい ID で付け直す。付けないと、子は前の ID で印を書き、新しい ID の `wait` はタイムアウトまで終わらない
 3. **立てて指示し、依頼の一覧に記録する。** `start_session` を次の値で呼ぶ。
    - `initiation: "user_asked"`、`context: "fresh"`、`target: "ssh"`、`host`（手順 1 の接続名）、`cwd`（接続先の repo の絶対パス）、`use_worktree: true`、`source_branch`、`branch_name`
    - このマシンに立てるときは `target` と `host` を省き、`cwd` にこのマシンの repo を渡す
@@ -82,7 +82,7 @@ description: Use when the user wants this session to act as a dispatcher — han
    - 既にあるセッションに振るときは、`list_sessions` と `get_session` で cwd・branch・isRunning を確かめる。ユーザーが割り当てていないセッションや、他の作業中のセッションには送らない。`SendMessage` で送ったら、同じように `add` で記録する
 4. **完了を待つ。** `dispatch.sh wait <timeout 秒> <ID>...` をバックグラウンドの Bash で動かす。`list_events` を短い間隔で繰り返し呼ばない
    - 子ごとに 1 本ずつ動かす。別の子の ID をまとめると拒否される
-   - Bash の `timeout`（ミリ秒）は `wait` の timeout より長くする。Bash の上限で止まったときは、同じコマンドで動かし直す。何度動かし直しても、依頼の時刻までさかのぼって印を探すので取りこぼさない
+   - Bash の `timeout`（ミリ秒）は `wait` の timeout より 2 分以上長くする（接続できないとき、`wait` は時間切れのあとも 4 回まで試す）。Bash の上限で止まったときは、同じコマンドで動かし直す。何度動かし直しても、依頼の時刻までさかのぼって印を探すので取りこぼさない
 5. **結果を読んで確かめる。** `list_events`（`limit` は小さく）で子の最後の返信を読む。
    - 「DONE」の内容をそのまま信じず、PR・`git log`・CI などの実物を見る
    - 確かめたら `dispatch.sh close <ID> <確かめたこと>` で閉じる。確かめる前に閉じない
