@@ -36,6 +36,18 @@ line -w assistant '[X-6] BLOCKED: need decision'
 line -w assistant '[X-6] DONE: resolved'
 printf '{"message":{"role":"assistant","content":[{"type":"text","text":"[X-7] DONE: old"}]}}\n' > "$proj/-w/old.jsonl"
 ago "$proj/-w/old.jsonl" 2
+# 印とみなさないもの: 文中の言及、ID が前後に長いもの、サブエージェントの記録、ツールの入出力
+mkdir -p "$proj/-m/sess/subagents"
+line -m assistant 'see [M-1] DONE: mentioned mid-line'
+line -m assistant '[M-10] DONE: longer id'
+line -m assistant '[XM-1] DONE: prefixed id'
+printf '{"message":{"role":"assistant","content":[{"type":"text","text":"[M-2] DONE: from subagent"}]}}\n' > "$proj/-m/sess/subagents/agent-1.jsonl"
+printf '{"message":{"role":"assistant","content":[{"type":"tool_use","name":"Write","input":{"content":"[M-3] DONE: in tool input"}}]}}\n' >> "$proj/-m/s.jsonl"
+printf '{"message":{"role":"user","content":[{"type":"tool_result","content":[{"type":"text","text":"[M-3] DONE: tool output"}]}]}}\n' >> "$proj/-m/s.jsonl"
+# 同じ行の text ブロックのあとに続くツールの入力は、その text ブロックの中ではない
+printf '{"message":{"role":"assistant","content":[{"type":"text","text":"writing"},{"type":"tool_use","name":"Write","input":{"content":"draft\\n[M-5] DONE: in tool input"}}]}}\n' >> "$proj/-m/s.jsonl"
+# 日本語の前置きのあとの行頭は印として数える
+line -m assistant '報告です\n[M-4] DONE: 完了'
 # 印を書かずに止まった子: 2 時間前から書き込みがない
 line -stale assistant 'working...'
 ago "$proj/-stale/s.jsonl" 2
@@ -77,6 +89,12 @@ expect 2 wait 0 X-7
 expect 2 wait 0 X-2 X-3
 has '未完了: X-3'
 has 'BLOCKED: X-2'
+for i in 1 2 3 4 5; do expect 0 add M-$i local /m local_m; done
+expect 2 wait 0 M-1
+expect 2 wait 0 M-2
+expect 2 wait 0 M-3
+expect 0 wait 0 M-4
+expect 2 wait 0 M-5
 expect 64 wait abc X-1
 expect 64 wait 08 X-1
 expect 64 wait 0
@@ -150,11 +168,11 @@ expect 65 add X-1 local /w local_a
 expect 0 status
 lacks '^X-1	'
 has 'X-2.*BLOCKED'
-for id in X-2 X-3 X-4 X-5 X-6 X-7 S-1 ST-1 ST-2 ST-3 R-1 Q-1; do run close $id done > /dev/null; done
+for id in X-2 X-3 X-4 X-5 X-6 X-7 M-1 M-2 M-3 M-4 M-5 S-1 ST-1 ST-2 ST-3 R-1 Q-1; do run close $id done > /dev/null; done
 expect 0 status
 has '未完了の依頼はありません'
 # 依頼の一覧は追記だけ。close した依頼も行として残る
 n=$(grep -c . "$ledger")
-if [[ $n == 26 ]]; then echo "ok   ledger keeps all 26 events"; else echo "FAIL ledger has $n events, want 26"; fail=1; fi
+if [[ $n == 36 ]]; then echo "ok   ledger keeps all 36 events"; else echo "FAIL ledger has $n events, want 36"; fail=1; fi
 
 exit $fail
