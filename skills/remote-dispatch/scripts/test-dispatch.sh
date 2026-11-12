@@ -95,6 +95,10 @@ expect 0 add F-1 local /nodir local_f
 expect 0 add F-2 local /nodir local_f
 expect 2 wait 0 F-1
 expect 0 wait 0 F-2
+# 依頼の時刻が接続先の時計より 10 分以上先でも、-mmin を 0 以下にせず直近の記録は見る
+line -w assistant '[F-3] DONE: client clock ahead'
+printf '%s\tadd\tF-3\tlocal\t/nodir\tlocal_f\t-\n' "$(( $(date +%s) + 3600 ))" >> "$ledger"
+expect 0 wait 0 F-3
 expect 2 wait 0 X-2 X-3
 has '未完了: X-3'
 has 'BLOCKED: X-2'
@@ -145,6 +149,9 @@ has '接続できません'
 # 復帰直後に時間切れになっていても、接続先を 1 回は調べてから終わる（スリープ中も時計は進み、復帰の直後は回線がまだ戻っていない）
 echo 3 > "$home/ssh-fail"
 expect 0 wait 0 R-1
+# 続けて 4 回失敗したら、5 回目は試さずに終わる
+echo 4 > "$home/ssh-fail"
+expect 255 wait 0 R-1
 echo 99 > "$home/ssh-fail"
 expect 255 wait 0 R-1
 has 'ssh -o BatchMode=yes'
@@ -179,11 +186,11 @@ expect 65 add X-1 local /w local_a
 expect 0 status
 lacks '^X-1	'
 has 'X-2.*BLOCKED'
-for id in X-2 X-3 X-4 X-5 X-6 X-7 F-1 F-2 M-1 M-2 M-3 M-4 M-5 S-1 ST-1 ST-2 ST-3 R-1 Q-1; do run close $id done > /dev/null; done
+for id in X-2 X-3 X-4 X-5 X-6 X-7 F-1 F-2 F-3 M-1 M-2 M-3 M-4 M-5 S-1 ST-1 ST-2 ST-3 R-1 Q-1; do run close $id done > /dev/null; done
 expect 0 status
 has '未完了の依頼はありません'
 # 依頼の一覧は追記だけ。close した依頼も行として残る
 n=$(grep -c . "$ledger")
-if [[ $n == 40 ]]; then echo "ok   ledger keeps all 40 events"; else echo "FAIL ledger has $n events, want 40"; fail=1; fi
+if [[ $n == 42 ]]; then echo "ok   ledger keeps all 42 events"; else echo "FAIL ledger has $n events, want 42"; fail=1; fi
 
 exit $fail
