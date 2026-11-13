@@ -15,7 +15,6 @@
 | `docs/` | 運用メモ（レビュー運用の経緯、Codex への切り替え手順） |
 | `statusline*.sh` / `runcat-statusline.py` / `notify.sh` | ステータスライン表示と通知のスクリプト |
 | `agents-disabled/` `commands-disabled/` `disabled-skills/` | 使わなくなった定義の保管場所（Claude Code からは読み込まれない） |
-| ルート直下の `MODE_*.md` `MCP_*.md` `FLAGS.md` など | 以前導入していた SuperClaude の名残。現在の `CLAUDE.md` からは参照していない |
 
 ## 追跡していないもの
 

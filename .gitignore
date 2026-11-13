@@ -7,7 +7,6 @@
 !/*.md
 !/*.sh
 !/runcat-statusline.py
-!/.superclaude-metadata.json
 !/agents/
 !/agents-disabled/
 !/commands/
