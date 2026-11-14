@@ -51,3 +51,23 @@ Codex は認証切れ・auto-deny などの事故要因を抱えることから�
   この PR で直すよう求めていた（新しく足した機能を使うと、一覧の合計がずれる・ダイアログに値が残る）
 - → 既存の欠陥のうち、この変更の機能を想定どおりに使うと踏むものは「要対応」として、この PR の中で直す。
   それ以外は従来どおり ADJACENT。上の事故を繰り返さないよう、差分の外はレビュアが直さず、呼び出し元が再現テストを先に書いて直す
+
+## 観点が偏っていないかを公開の指針と照合した (2026-11-14)
+
+上のチェックリストは 1 人のレビュアの指摘から作ったので、その人が得意な観点（同時実行、失敗経路、テスト）に寄っている。
+公開されている指針と照合し、抜けていた観点を code-reviewer とチェックリストに足した。
+
+- 設計を最初に見る。Google は "The most important thing to cover in a review is the overall design of the CL." と書く
+  （https://google.github.io/eng-practices/review/reviewer/looking-for.html）
+- 複雑さ・命名・コメント・ドキュメント（同上）
+- 個人情報。Microsoft は "Is PII and EUII treated correctly? Are we logging any PII information?" を確認項目に挙げる
+  （https://microsoft.github.io/code-with-engineering-playbook/code-reviews/process-guidance/reviewer-guidance/）
+- 認可（IDOR）、監査ログ、依存の脆弱性（https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html）
+- 差分の大きさ。SmartBear の Cisco での調査は "beyond 400 LOC, the ability to find defects diminishes." と報告している
+  （https://smartbear.com/learn/code-review/best-practices-for-peer-code-review/）
+
+チェックリストは自由なレビューのあとに当てる。Gonçalves らの実験（Empirical Software Engineering 27, 2022、
+doi:10.1007/s10664-022-10123-8）では、チェックリストの有無とレビューの成績に強い関係は見つからなかった。
+
+Microsoft の手引きには "Don't block the current PR due to issues that are out of scope." とある。
+「要対応」はこれと食い違わないよう、その PR の機能を使うと踏むもの（＝その PR の目的を達成できないもの）に限っている。
