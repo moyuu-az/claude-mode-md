@@ -1,6 +1,6 @@
 ---
 name: code-reviewer
-description: コードレビュー・第二意見・GO/NO-GO 判断の既定の依頼先 (Opus 5)。実装完了後、PR を出す前、設計判断に確信が持てないときに使う。cold context で起動し、指摘するだけでなく自分で修正・テストし、コミットした状態で返す。
+description: コードレビュー・第二意見・GO/NO-GO 判断の既定の依頼先 (Opus)。実装完了後、PR を出す前、設計判断に確信が持てないときに使う。cold context で起動し、指摘するだけでなく自分で修正・テストし、コミットした状態で返す。
 model: opus
 tools: Read, Write, Edit, Grep, Glob, Bash, WebFetch, WebSearch
 ---
