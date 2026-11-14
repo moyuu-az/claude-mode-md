@@ -39,3 +39,35 @@
 
 以前は「レビュー = Codex」。コストを支配していたのは巡回数で依頼先の単価ではなかったこと、
 Codex は認証切れ・auto-deny などの事故要因を抱えることから、既定を SubAgent（code-reviewer）へ変更した。
+
+## 新しい経路で踏む既存の欠陥は「要対応」に分けた (2026-11-14, smacho)
+
+人間のレビュアから受けた指摘（34 PR、約 250 件）を観点別に分け、smacho のレビューチェックリスト
+（`~/ben54-odr/smacho-top/docs/review-checklist.md`）にした。そのうえで、過去の PR 2 本
+（smacho-backend#87、smacho-frontend#139）の初回レビュー時点の状態で code-reviewer を走らせ、人間の指摘と照合した。
+
+- 拾えたのは 9 件中 5 件、8 件中 5 件（ほかに一部だけ拾えたものが各 1 件）
+- 拾えた指摘の多くを、レビュアは「既存の欠陥」として ADJACENT に回した。人間のレビュアは同じ指摘を、
+  この PR で直すよう求めていた（新しく足した機能を使うと、一覧の合計がずれる・ダイアログに値が残る）
+- → 既存の欠陥のうち、この変更の機能を想定どおりに使うと踏むものは「要対応」として、この PR の中で直す。
+  それ以外は従来どおり ADJACENT。上の事故を繰り返さないよう、差分の外はレビュアが直さず、呼び出し元が再現テストを先に書いて直す
+
+## 観点が偏っていないかを公開の指針と照合した (2026-11-14)
+
+上のチェックリストは 1 人のレビュアの指摘から作ったので、その人が得意な観点（同時実行、失敗経路、テスト）に寄っている。
+公開されている指針と照合し、抜けていた観点を code-reviewer とチェックリストに足した。
+
+- 設計を最初に見る。Google は "The most important thing to cover in a review is the overall design of the CL." と書く
+  （https://google.github.io/eng-practices/review/reviewer/looking-for.html）
+- 複雑さ・命名・コメント・ドキュメント（同上）
+- 個人情報。Microsoft は "Is PII and EUII treated correctly? Are we logging any PII information?" を確認項目に挙げる
+  （https://microsoft.github.io/code-with-engineering-playbook/code-reviews/process-guidance/reviewer-guidance/）
+- 認可（IDOR）、監査ログ、依存の脆弱性（https://cheatsheetseries.owasp.org/cheatsheets/Secure_Code_Review_Cheat_Sheet.html）
+- 差分の大きさ。SmartBear の Cisco での調査は "beyond 400 LOC, the ability to find defects diminishes." と報告している
+  （https://smartbear.com/learn/code-review/best-practices-for-peer-code-review/）
+
+チェックリストは自由なレビューのあとに当てる。Gonçalves らの実験（Empirical Software Engineering 27, 2022、
+doi:10.1007/s10664-022-10123-8）では、チェックリストの有無とレビューの成績に強い関係は見つからなかった。
+
+Microsoft の手引きには "Don't block the current PR due to issues that are out of scope." とある。
+「要対応」はこれと食い違わないよう、その PR の機能を使うと踏むもの（＝その PR の目的を達成できないもの）に限っている。
